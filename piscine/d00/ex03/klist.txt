@@ -1,0 +1,5 @@
+Credentials cache: API:DD951EB3-BB9B-4A82-A9F4-80670A928AE7
+        Principal: jfrankow@LE-101.FR
+
+  Issued                Expires               Principal
+Jul  2 18:24:58 2018  Jul  9 18:24:51 2018  krbtgt/LE-101.FR@LE-101.FR

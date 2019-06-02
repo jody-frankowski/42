@@ -1,0 +1,4 @@
+dn: uid=jfrankow,ou=student,ou=people,dc=le-101,dc=fr
+changetype: modify
+add: mobile
+mobile: [REDACTED]
