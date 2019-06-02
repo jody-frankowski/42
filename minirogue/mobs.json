@@ -1,0 +1,23 @@
+[
+		{"symbol": "·", "min": 10 , "max": 10,  "critChance": 10, "critCoeff": 3, "hp": 30, "name" : "Fake Tile", "xp": 5},
+		{"symbol": ".", "min": 10 , "max": 10,  "critChance": 10, "critCoeff": 3, "hp": 30, "name" : "Fake Big Tile", "xp": 5},
+		{"symbol": "█", "min": 10 , "max": 10,  "critChance": 10, "critCoeff": 3, "hp": 30, "name" : "Fake Wall", "xp": 5},
+		{"symbol": "B", "min": 10 , "max": 20,  "critChance": 10, "critCoeff": 1.2, "hp": 30, "name" : "Bat", "xp": 10},
+		{"symbol": "B", "min": 10 , "max": 20,  "critChance": 10, "critCoeff": 1.2, "hp": 30, "name" : "Bot", "xp": 10},
+		{"symbol": "B", "min": 10 , "max": 20,  "critChance": 10, "critCoeff": 1.2, "hp": 30, "name" : "Bat", "xp": 10},
+		{"symbol": " ", "min": 10 , "max": 15,  "critChance": 10, "critCoeff": 3, "hp": 60, "name" : "Ghost", "xp": 5},
+		{"symbol": " ", "min": 10 , "max": 15,  "critChance": 10, "critCoeff": 3, "hp": 60, "name" : "Ghost", "xp": 5},
+		{"symbol": "E", "min": 0 , "max": 50,  "critChance": 50, "critCoeff": 1.5, "hp": 80, "name" : "Emu", "xp": 20},
+		{"symbol": "E", "min": 0 , "max": 50,  "critChance": 50, "critCoeff": 1.5, "hp": 80, "name" : "Emo", "xp": 20},
+		{"symbol": "E", "min": 0 , "max": 50,  "critChance": 50, "critCoeff": 1.5, "hp": 80, "name" : "Emu", "xp": 20},
+		{"symbol": "Z", "min": 10 , "max": 50,  "critChance": 25, "critCoeff": 2.0, "hp": 127, "name" : "Zombie", "xp": 40},
+		{"symbol": "Z", "min": 10 , "max": 50,  "critChance": 25, "critCoeff": 2.0, "hp": 127, "name" : "Zombic", "xp": 40},
+		{"symbol": "H", "min": 48 , "max": 52,  "critChance": 90, "critCoeff": 1.2, "hp": 150, "name" : "Hydra", "xp": 50},
+		{"symbol": "d", "min": 50 , "max": 100,  "critChance": 10, "critCoeff": 6, "hp": 250, "name" : "Skinny Dragon", "xp": 80},
+		{"symbol": "D", "min": 80 , "max": 150,  "critChance": 10 , "critCoeff": 6, "hp": 500, "name" : "Fat Dragon", "xp": 130},
+		{"symbol": "Δ", "min": 90 , "max": 140,  "critChance": 15 , "critCoeff": 6, "hp": 400, "name" : "Fat Dragon 2", "xp": 160},
+		{"symbol": "C", "min": 10 , "max": 40,  "critChance": 2 , "critCoeff": 35, "hp": 1000, "name" : "C Seg Fault", "xp": 260},
+		{"symbol": "4", "min": 15 , "max": 20,  "critChance": 1 , "critCoeff": 40, "hp": 2000, "name" : "Zombie de la Z4", "xp": 4},
+		{"symbol": "M", "min": 10 , "max": 50,  "critChance": 1 , "critCoeff": 50, "hp": 2500, "name" : "Moulinette", "xp": 666},
+		{"symbol": " ", "min": 60 , "max": 75,  "critChance": 10, "critCoeff": 3, "hp": 60, "name" : "Phantom", "xp": 200}
+]
