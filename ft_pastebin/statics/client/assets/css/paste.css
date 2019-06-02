@@ -1,0 +1,149 @@
+
+body
+{
+    background-image: url('https://code2prog.com/wp-content/uploads/2015/01/ceystalhorizon-flat-design-wallpapers-HD-free-wallpapers-backgrounds-images-FHD-4k-download-2014-2015-2016.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+nav{
+    min-height: 5vh;
+}
+
+.content {
+    width: 100%;
+}
+
+.author-zone {
+    margin-top: 2vh;
+    height: 1020px;
+    background-color: rgba(39, 65, 100, 0.376);
+    opacity: 0.95;
+    margin-right: 20px;
+}
+
+.author-zone p {
+    font-size: 30px;
+    color: black;
+    text-align: center;
+    padding-top: 5vh;
+    font-size: 1.2em;
+}
+
+.content-tools
+{
+    margin-top: 3vh;
+}
+
+.content-tools img#download
+{
+    margin-top: 10px;;
+    margin-left: -50px;
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+}
+
+.content-tools img#clipboard
+{
+    margin-top: 10px;;
+    margin-left: -120px;
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+}
+
+.paste-zone {
+    margin-top: 2vh;
+    margin-left: 20px;
+    min-height: 1040px;;
+    opacity: 0.95;
+    padding: 0;
+}
+
+.expire{
+    text-align: center;
+    margin-top: 40vh;
+    width: 100vw;
+    color: #fff;
+    font-size: 5em;
+}
+
+#title
+{
+    color: #fff;
+    text-align: center;
+    font-size: 2em;
+    line-height: 50px;
+}
+
+#language{
+    font-style: italic;
+    font-size: 1em;
+}
+
+#insertion{
+    font-style: italic;
+    font-size: 1em;
+    padding-top: 1vh;
+}
+
+#expiration{
+    font-style: italic;
+    font-size: 1em;
+    padding-top: 1vh;
+}
+
+#paste{
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+}
+
+#paste-content{
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+}
+
+#brut {
+    min-height: 500px;
+    margin-top: 20px;
+    background-color: rgba(216, 222, 231, 0.376);
+    padding: 20px;
+    opacity: 0.95;
+}
+
+pre{
+    overflow-y: auto;
+    height: 460px;
+}
+
+#author{
+    padding-top: 25vh;
+}
+
+
+@media screen and (max-width: 767px) {
+    .author-zone {
+        margin-top: 2vh;
+        height: 500px;
+        margin-left: 5vw;
+        width: 90vw;
+    }
+    .paste-zone
+    {
+        margin-left: 5vw;
+        width: 90vw;
+    }
+    #author{
+        padding-top: 10vh;
+    }
+    #download{
+        margin-left: 0;
+    }
+    #clipboard{
+        margin-left: 0;
+    }
+  }

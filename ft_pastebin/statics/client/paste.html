@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Import Google Icon Font-->
+    <link rel="stylesheet" href="https:/stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https:/cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/paste.css">
+    <link rel="icon" href="/assets/img/favicon.ico">
+</head>
+
+<body>
+<nav class="navbar navbar-light" style="background-color:#274164 ;">
+    <a class="navbar-brand" href="/">ft_pastebin</a>
+</nav>
+
+    
+ <section class="content-tools row" id="dl">
+     <div class="col-md-12 clearfix">
+        <h1 id="title"></h1>
+        <div class="float-right">
+            <img id="download" src="/assets/img/download.png" alt="download-icon" onclick="mydownload();">
+        </div>
+        <div class="float-right">
+            <img id="clipboard" src="/assets/img/clipboard.png" alt="download-icon" onclick="myFunction()">
+        </div>
+        
+     </div>
+    </section>
+    <section class="content row" id="content">
+        <div class="author-zone col-md-2 offset-2">
+            <p id="author"></p>
+            <p id="insertion"></p>
+            <p id="expiration"></p>
+            <p id="language"></p>
+        </div>
+        <div class="paste-zone col-md-6">
+            <input type="text" value="" id="paste">
+            <p id="paste-content"></p>
+            <div id="edit"><div id="editor"></div>
+            </div>
+            <div id="brut">
+                <pre id="pre"></pre>
+            </div>
+        </div>
+    </section>
+   
+<!--JavaScript at end of body for optimized loading-->
+<!-- Latest compiled and minified JavaScript -->
+<script src="https:/code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https:/code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https:/cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https:/stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="https:/cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+<script src="/assets/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/assets/js/download.js"></script>
+<script type="text/javascript">
+    var request = new XMLHttpRequest();
+    var title = "paste";
+
+    request.open('GET', 'http://'+window.location.host+'/api/paste'+window.location.pathname, true);
+    request.onload = function () {
+        if(request.status == 404) 
+        {
+            document.getElementById('content').innerHTML = "<h1 class='text-center expire'>Désolé, cette page n'existe pas !</h1>";
+            document.getElementById('dl').innerHTML = "";
+        }
+        else if(this.response != "Can't see anymore!")
+        {
+            if (request.status >= 200 && request.status < 400) {
+                
+                var data = JSON.parse(this.response);
+
+                var editor = ace.edit("editor");
+                editor.setTheme("ace/theme/monokai");
+                if(data.language == "None")
+                    data.language = "text"
+                language = data.language
+                editor.session.setMode("ace/mode/"+data.language.toLowerCase());
+                editor.setReadOnly(true);
+                var date = new Date(data.insertion_date);
+                if(data.expiration_date != -1)
+                    var exp = new Date(data.expiration_date);
+                title = data.title;
+                document.getElementById('title').textContent= data.title;
+                document.getElementById('author').textContent= data.author;
+                document.getElementById('language').textContent = data.language;
+                document.getElementById('paste').value = data.content;
+                document.getElementById('paste-content').textContent = data.content;
+                document.getElementById('pre').textContent = data.content;
+                document.getElementById('insertion').innerHTML = "Posté le :<br>"+date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()+" à "+date.getHours()+"h"+date.getMinutes();
+                if(data.expiration_date != -1)
+                    document.getElementById('expiration').innerHTML = "Visible jusqu'au :<br>"+exp.getDate()+"/"+(exp.getMonth()+1)+"/"+exp.getFullYear()+" à "+exp.getHours()+"h"+exp.getMinutes();
+                editor.insert(data.content);
+
+            }
+        }
+        else{
+            document.getElementById('content').innerHTML = "<h1 class='text-center expire'>Désolé, le paste n'est plus visible !</h1>";
+            document.getElementById('dl').innerHTML = "";
+        }
+        
+    }
+    request.send();
+
+    function mydownload()
+    {
+        var text = document.getElementById('paste-content').innerHTML;
+        download(text, title+".txt", "text/plain");
+    }
+
+    function myFunction() {
+        document.getElementById("edit").style = ("box-shadow: 0 1rem 3rem white");
+        var copyText = document.getElementById("paste");
+        copyText.select();
+        document.execCommand("copy");
+        setTimeout( function(){
+            document.getElementById("edit").style= ("box-shadow: 0");
+        }, 300)
+      }
+</script>
+</body>
+</html>

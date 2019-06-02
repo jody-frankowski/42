@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Import Google Icon Font-->
+    <link rel="stylesheet" href="https:/stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https:/cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/paste.css">
+    <link rel="icon" href="/assets/img/favicon.ico">
+</head>
+
+<body>
+    
+<nav class="navbar navbar-light" style="background-color:#274164 ;">
+        <a class="navbar-brand" href="/">ft_pastebin</a>
+</nav>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-1 jumbotron">
+
+            <form autocomplete="off" method="post" action="/api/paste">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlInput1">Paste name || title</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title" name="title">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlInput1">Author</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Author name"
+                            name="author">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlSelect1">Available time</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="expiration_date">
+                            <option value="1m">1 minute</option>
+                            <option value="1h">1 hour</option>
+                            <option value="1d">1 day</option>
+                            <option value="forever">Forever</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlInput1">Access limit</label>
+                        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="0" name="max_views">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlInput1">Select language</label>
+                        <select class="form-control selectpicker" data-live-search="true" title="Language..." id="language_input"
+                            onchange="set_language();" name="language">
+                            <option>PHP</option>
+                            <option>Html</option>
+                            <option>CSS</option>
+                            <option>Javascript</option>
+                            <option>C++</option>
+                            <option>Python</option>
+                            <option>Ruby</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label style="line-height:24px;">Private</label><br />
+                        <label class="switch">
+                            <input type="checkbox" name="public">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Your paste</label>
+
+                    <div id="editor" class="form-group"></div>
+                </div>
+                <input id="content_paste" type="hidden" name="content" value="">
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+            </form>
+        </div>
+
+        <div id="latest-pastes" class="col-md-3">
+
+        </div>
+    </div>
+
+
+    <!--JavaScript at end of body for optimized loading-->
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https:/code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https:/cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https:/stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https:/cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+    <script src="/assets/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/assets/js/autocomplete.js"></script>
+
+    <script>
+
+        function timeDifference(current, previous) {
+
+            var msPerMinute = 60 * 1000;
+            var msPerHour = msPerMinute * 60;
+            var msPerDay = msPerHour * 24;
+            var msPerMonth = msPerDay * 30;
+            var msPerYear = msPerDay * 365;
+
+            var elapsed = current - previous;
+
+            if (elapsed < msPerMinute) {
+                return Math.round(elapsed / 1000) + ' seconds ago';
+            }
+
+            else if (elapsed < msPerHour) {
+                return Math.round(elapsed / msPerMinute) + ' minutes ago';
+            }
+
+            else if (elapsed < msPerDay) {
+                return Math.round(elapsed / msPerHour) + ' hours ago';
+            }
+
+            else if (elapsed < msPerMonth) {
+                return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
+            }
+
+            else if (elapsed < msPerYear) {
+                return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
+            }
+
+            else {
+                return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
+            }
+        }
+
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/text");
+        function set_language() {
+            var textLanguage = document.getElementById("language_input");
+            editor.session.setMode("ace/mode/" + textLanguage.value.toLowerCase());
+        }
+
+        document.querySelector("#submit").addEventListener("click", function(event) {
+            var text = editor.getValue();
+            if(text)
+            {
+                var input = document.getElementById("content_paste");
+                input.value = text;
+            }
+            else 
+                event.preventDefault();
+        }, false);
+
+        var request = new XMLHttpRequest();
+
+        request.open('GET', 'http://' + window.location.host + '/api/paste/latest', true);
+        request.onload = function () {
+
+            // Begin accessing JSON data here
+            var data = JSON.parse(this.response);
+
+            if (request.status >= 200 && request.status < 400) {
+                for (var i = 0; i < data.length; i++) {
+                    var card = document.createElement('div');
+                    card.setAttribute('id', data[i].id);
+                    card.setAttribute('class', 'col-md-12');
+                    document.getElementById('latest-pastes').appendChild(card);
+
+                    var div = document.createElement('div');
+                    div.setAttribute('class', 'card');
+                    div.setAttribute('style', 'margin-bottom:10px;')
+                    card.appendChild(div);
+
+                    var cardBody = document.createElement('div');
+                    cardBody.setAttribute('class', 'card-body');
+                    div.appendChild(cardBody);
+
+                    date = new Date(data[i].insertion_date);
+                    now = new Date(Date.now());
+                    var time = document.createElement('p');
+                    time.setAttribute('class', 'timestamp');
+                    time.innerHTML = timeDifference(now, date);
+                    cardBody.appendChild(time);
+                    
+                    var title = document.createElement('a');
+                    title.setAttribute('class', 'card-title');
+                    title.setAttribute('href', 'http://' + window.location.host + '/' + data[i].id + '/');
+                    title.innerHTML = data[i].title;
+                    cardBody.appendChild(title);
+
+                    var p = document.createElement('p');
+                    p.setAttribute('class', 'card-text');
+                    p.innerHTML = data[i].author;
+                    cardBody.appendChild(p);
+                }
+            }
+        }
+
+        request.send();
+
+
+    </script>
+</body>
+
+</html>
