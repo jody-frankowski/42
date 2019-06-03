@@ -15,7 +15,7 @@
 .PHONY = all clean fclean norm re
 
 ### CFLAGS
-CFLAGS  = -Wall -Wextra -Werror -Werror=vla -Wno-missing-braces -Wno-missing-field-initializers
+CFLAGS  = -Wall -Wextra -Werror -Werror=vla
 CFLAGS += -O3 -march=native -pipe
 
 ### CFLAGS

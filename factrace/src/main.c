@@ -67,7 +67,7 @@ int			main(int ac, char **av)
 
 	if (ac == 2)
 		mpz_init_set_str(timeout, av[1], 10);
-	lines = (t_lines){0};
+	lines = (t_lines){{{{0}, 0, 0}}, 0};
 	i = 0;
 	if ((ret = read(0, buff, BUFFER)) > 0)
 	{
