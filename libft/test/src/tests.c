@@ -844,6 +844,7 @@ int		main()
 	test_ft_array_push();
 
 	/* TODO */
+	/* test_ft_gnl(); */
 	/* test_ft_read_all(); */
 	/* test_ft_realloc(); */
 }
