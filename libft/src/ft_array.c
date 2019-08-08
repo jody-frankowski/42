@@ -100,6 +100,13 @@ void	*ft_array_get(t_array *array, size_t index)
 	return (array->bytes + index * array->width);
 }
 
+/*
+** ft_array_free - Free a t_array
+** @array: The t_array to free
+**
+** Return: NULL as a convenience for the norminette.
+*/
+
 void	*ft_array_free(t_array *array)
 {
 	ft_tab_free(array->bytes, array->free, array->width, array->len);
