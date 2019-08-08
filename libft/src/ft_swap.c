@@ -1,0 +1,43 @@
+/* ************************************************************************** */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   ft_swap.c                                        .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: jfrankow <jfrankow@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2018/10/15 11:19:59 by jfrankow     #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/15 11:19:59 by jfrankow    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
+/* ************************************************************************** */
+
+#include <string.h>
+#include "libft.h"
+
+/*
+** Swaps the content pointed by a with the content pointed by b.
+** The swap is done in place with XOR, so no malloc is needed.
+** The XOR is done on elements of `long` size as long as possible.
+** TODO Handle a and b being misaligned.
+*/
+
+void	ft_swap(void *a, void *b, size_t len)
+{
+	while (len > WORDSIZE)
+	{
+		*(t_word *)a ^= *(t_word *)b;
+		*(t_word *)b ^= *(t_word *)a;
+		*(t_word *)a ^= *(t_word *)b;
+		a += WORDSIZE;
+		b += WORDSIZE;
+		len -= WORDSIZE;
+	}
+	while (len--)
+	{
+		*(char *)a ^= *(char *)b;
+		*(char *)b ^= *(char *)a;
+		*(char *)a ^= *(char *)b;
+		a++;
+		b++;
+	}
+}
