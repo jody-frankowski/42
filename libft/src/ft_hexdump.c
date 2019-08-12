@@ -24,10 +24,11 @@
 ** error.
 */
 
-void	ft_hexdump(const char *mem, size_t len)
+void	ft_hexdump(const void *ptr, size_t len)
 {
-	size_t	i;
-	size_t	j;
+	size_t			i;
+	size_t			j;
+	const t_byte	*mem = ptr;
 
 	i = 0;
 	while (i < len)
