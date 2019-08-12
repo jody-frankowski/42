@@ -60,7 +60,7 @@ int				ft_charcasecmp(char c1, char c2);
 size_t			ft_count_words(char const *s, char const *charset);
 size_t			ft_count_words_c(char const *s, char c);
 void			ft_err_exit(int statement_value, const char *error_message);
-void			ft_hexdump(const char *mem, size_t len);
+void				ft_hexdump(const void *ptr, size_t len);
 int				ft_incharset(int c, const char *charset);
 int				ft_isalnum(int c);
 int				ft_isalpha(int c);
@@ -161,6 +161,6 @@ int				ft_tab_push_ptr(void **tab,
 									size_t len);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
-int				read_up_to(int fd, char *buff, int to_read, int *total);
+int				ft_read_up_to(int fd, char *buff, int to_read, int *total);
 
 #endif
