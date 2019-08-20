@@ -33,17 +33,24 @@ void	*ft_realloc(void *ptr, size_t size, size_t new_size)
 {
 	void *new;
 
-	if (new_size != 0 && !(new = malloc(new_size)))
-		return (NULL);
-	if (ptr)
-	{
-		ft_memcpy(new, ptr, size);
-		free(ptr);
-	}
 	if (new_size == 0)
+	{
+		if (ptr)
+			free(ptr);
 		return (NULL);
+	}
 	else
+	{
+		new = malloc(new_size);
+		if (!new)
+			return (NULL);
+		if (ptr)
+		{
+			ft_memcpy(new, ptr, size);
+			free(ptr);
+		}
 		return (new);
+	}
 }
 
 /*
@@ -67,18 +74,25 @@ void	*ft_reallocf(void *ptr, size_t size, size_t new_size)
 {
 	void *new;
 
-	if (new_size != 0 && !(new = malloc(new_size)))
-	{
-		free(ptr);
-		return (NULL);
-	}
-	if (ptr)
-	{
-		ft_memcpy(new, ptr, size);
-		free(ptr);
-	}
 	if (new_size == 0)
+	{
+		if (ptr)
+			free(ptr);
 		return (NULL);
+	}
 	else
+	{
+		new = malloc(new_size);
+		if (!new)
+		{
+			free(ptr);
+			return (NULL);
+		}
+		if (ptr)
+		{
+			ft_memcpy(new, ptr, size);
+			free(ptr);
+		}
 		return (new);
+	}
 }
