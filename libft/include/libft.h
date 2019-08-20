@@ -107,7 +107,7 @@ void			ft_qsort(void *base, size_t nel, size_t width,
 						int (*compar)(const void *, const void *));
 int				ft_read_all(int fd, char **buf);
 void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
-void			*ft_reallocf(void *ptr, size_t size, size_t new_size);
+void			*ft_reallocf(void *ptr, size_t old_size, size_t new_size);
 char			*ft_stpcpy(char *dst, const char *src);
 char			*ft_stpncpy(char *dst, const char *src, size_t len);
 int				ft_strcasecmp(const char *s1, const char *s2);

@@ -18,7 +18,7 @@
 /*
 ** ft_realloc - Reallocate some memory to a new size
 ** @ptr: Pointer to the memory to reallocate
-** @size: Actual size of the allocated memory
+** @old_size: Actual size of the allocated memory
 ** @new_size: Desired new size of the allocated memory
 **
 ** If new_size is equal to 0 and ptr is not NULL this is equivalent to
@@ -29,7 +29,7 @@
 ** if new_size was zero.
 */
 
-void	*ft_realloc(void *ptr, size_t size, size_t new_size)
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void *new;
 
@@ -46,7 +46,7 @@ void	*ft_realloc(void *ptr, size_t size, size_t new_size)
 			return (NULL);
 		if (ptr)
 		{
-			ft_memcpy(new, ptr, size);
+			ft_memcpy(new, ptr, old_size);
 			free(ptr);
 		}
 		return (new);
@@ -56,7 +56,7 @@ void	*ft_realloc(void *ptr, size_t size, size_t new_size)
 /*
 ** ft_reallocf - Reallocate some memory to a new size
 ** @ptr: Pointer to the memory to reallocate
-** @size: Actual size of the allocated memory
+** @old_size: Actual size of the allocated memory
 ** @new_size: Desired new size of the allocated memory
 **
 ** If new_size is equal to 0 and ptr is not NULL this is equivalent to
@@ -70,7 +70,7 @@ void	*ft_realloc(void *ptr, size_t size, size_t new_size)
 ** if new_size was zero.
 */
 
-void	*ft_reallocf(void *ptr, size_t size, size_t new_size)
+void	*ft_reallocf(void *ptr, size_t old_size, size_t new_size)
 {
 	void *new;
 
@@ -90,7 +90,7 @@ void	*ft_reallocf(void *ptr, size_t size, size_t new_size)
 		}
 		if (ptr)
 		{
-			ft_memcpy(new, ptr, size);
+			ft_memcpy(new, ptr, old_size);
 			free(ptr);
 		}
 		return (new);
