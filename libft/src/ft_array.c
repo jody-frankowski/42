@@ -87,6 +87,7 @@ int		ft_array_push(t_array *array, void *data)
 
 /*
 ** ft_array_get - Get an element from a t_array
+** @array: The t_array to query
 ** @index: The index of the element
 **
 ** Return: A pointer to the element at @index
