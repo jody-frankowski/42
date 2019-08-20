@@ -28,7 +28,10 @@ static void		set_head(t_list **head, t_list **node)
 }
 
 /*
-** Splits a linked list in two halves, setting left and right accordingly.
+** Splits a linked list in two halves, setting left and right accordingly
+** @lst: The list to split
+** @left: The resulting left half
+** @right: The resulting right half
 */
 
 static void		ft_lstsplit(t_list **lst, t_list **left, t_list **right)
@@ -81,8 +84,11 @@ static t_list	*ft_lstsortedmerge(t_list *left,
 }
 
 /*
-** Merge sorts a linked list with the cmp comparison function.
-** Returns 1 on success, or 0 on error.
+** ft_lstmergesort - Merge sorts a linked list
+** @lst: The list to sort
+** @cmp: The comparison function to use
+**
+** Return: 1 on success, or 0 on error
 */
 
 void			ft_lstmergesort(t_list **lst, int (*cmp)(t_list *, t_list *))

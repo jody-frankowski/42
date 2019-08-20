@@ -12,8 +12,13 @@
 /* ************************************************************************** */
 
 /*
-** Returns base to power of exponent.
-** If exponent is negative, behavior is undefined.
+** ft_pow - Exponentiate a number
+** @base: The number to exponentiate
+** @exponent: The exponent to use
+**
+** If @exponent is negative, the behavior is undefined.
+**
+** Return: @base to the power of @exponent
 */
 
 int	ft_pow(int base, int exponent)

@@ -73,6 +73,11 @@ static int			ft_set_cutoff(unsigned long *cutoff, \
 }
 
 /*
+** ft_strtol - Converts a string to an integer
+** @str: The string to convert
+** @endptr: A pointer to the last valid digit
+** @base: The radix to use
+**
 ** unsigned long	result;
 ** unsigned long	cutoff;
 ** unsigned long	cutlim;

@@ -16,9 +16,13 @@
 #include "libft.h"
 
 /*
-** Reads as much as possible from fd.
-** Sets buf to point to the malloced memory containing the read.
-** Returns the total number of bytes read or 0 on error.
+** ft_read_all - Reads as much as possible from a fd
+** @fd: The file descriptor to read from
+** @buf: The buffer to read in
+**
+** Sets @buf to point to the malloced memory containing the read.
+**
+** Return: the total number of bytes read or 0 on error
 */
 
 int	ft_read_all(int fd, char **buf)

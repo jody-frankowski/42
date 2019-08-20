@@ -14,6 +14,10 @@
 #include "libft.h"
 
 /*
+** ft_putwchar_fd - Writes an UTF-8 encoded character to a fd
+** @c: The UTF-8 encoded character
+** @fd: The file descriptor to write to
+**
 ** Write the UTF-8 encoded character c to the file descriptor fd.
 ** If the character is encoded on multiple bytes, they should be
 ** on the least significant bytes in priority.

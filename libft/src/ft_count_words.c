@@ -15,8 +15,10 @@
 #include "libft.h"
 
 /*
-** Returns the number of words in s separated by chars in charset.
-** If
+** ft_count_words - Counts the number of words in s separated by chars in
+** charset.
+** @s: The string in which to count words
+** @charset: The chars that delimit the words
 */
 
 size_t	ft_count_words(char const *s, char const *charset)

@@ -14,6 +14,8 @@
 /*
 ** Returns 1 if c is in charset, 0 if it isn't.
 ** charset should be a valid pointer.
+** @c: The searched character
+** @charset: The charset to search into
 */
 
 int	ft_incharset(int c, const char *charset)

@@ -45,6 +45,8 @@ static t_file	*get_or_add(t_list **files, const int fd)
 
 /*
 ** gnl_free - Free helper #norminette
+** @files: A list of t_file to free
+** @f: A file to free
 */
 
 static int		gnl_free(t_list **files, t_file *f)
@@ -56,6 +58,10 @@ static int		gnl_free(t_list **files, t_file *f)
 
 /*
 ** gnl_set_line - Second part of gnl #norminette
+** @files: A saved list of files being read
+** @f: The current file being read
+** @line: A pointer to the line that will be returned
+** @nlptr: A pointer to the next \n char in @f->buf
 */
 
 static int		gnl_set_line(

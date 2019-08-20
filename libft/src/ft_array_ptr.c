@@ -31,6 +31,7 @@ int		ft_array_push_ptr(t_array *array, void *ptr)
 
 /*
 ** ft_array_get_ptr - Get a pointer from a t_array
+** @array: The t_array to query
 ** @index: The index of the element
 **
 ** Return: The pointer that was stored at @index

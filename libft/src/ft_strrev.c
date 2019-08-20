@@ -15,7 +15,10 @@
 #include "libft.h"
 
 /*
-** Returns a new string containing s reversed.
+** ft_strrev - Reverses a string
+** @s: The string to reverse
+**
+** Return: The string reversed
 */
 
 char	*ft_strrev(char const *s)

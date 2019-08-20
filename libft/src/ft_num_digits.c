@@ -14,7 +14,10 @@
 #include <string.h>
 
 /*
-** Returns the number of digits in n.
+** ft_num_digits - Counts the number of base 10 digits in an integer
+** @n: The integer in which to count the number of base 10 digits
+**
+** Return: The number of digits in n
 */
 
 size_t	ft_num_digits(int n)

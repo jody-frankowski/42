@@ -17,7 +17,7 @@
 
 /*
 ** ft_hexdump - Print a basic hexdump
-** @mem: Pointer to the memory to print
+** @ptr: Pointer to the memory to print
 ** @len: How much bytes to print
 **
 ** Return: On success 0. On error -1, and errno shall be set to indicate the

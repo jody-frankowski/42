@@ -15,6 +15,11 @@
 #include "libft.h"
 
 /*
+** ft_swap - Swap the content of two buffers in-place
+** @a: A buffer
+** @b: A buffer
+** @len: The length of the swap in bytes
+**
 ** Swaps the content pointed by a with the content pointed by b.
 ** The swap is done in place with XOR, so no malloc is needed.
 ** The XOR is done on elements of `long` size as long as possible.
