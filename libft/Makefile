@@ -62,7 +62,7 @@ all: $(NAME)
 $(NAME): $(DEPENDENCIES) $(OBJS)
 # Tests wether NAME ends with ".a"
 ifeq ($(patsubst %.a,,$(NAME)),)
-	ar ruc $(NAME) $(OBJS)
+	ar rc $(NAME) $(OBJS)
 	ranlib $(NAME)
 else
 	@# LDLIBS needs to appear after OBJS https://eli.thegreenplace.net/2013/07/09/library-order-in-static-linking
@@ -87,7 +87,7 @@ HEADER_DEPS = $(OBJS:.o=.d)
 
 clean:
 	rm -f $(OBJS) $(HEADER_DEPS)
-	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) || true
+	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) 2>/dev/null || true
 
 fclean: clean
 	rm -f $(NAME)

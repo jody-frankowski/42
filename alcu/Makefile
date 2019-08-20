@@ -52,7 +52,7 @@ $(OBJS): $(BUILD_DIR)/%.o: %.c
 clean:
 	make -C libft clean
 	rm -f $(OBJS) $(DEPS)
-	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) || true
+	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) 2>/dev/null || true
 
 fclean: clean
 	make -C libft fclean

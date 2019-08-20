@@ -53,7 +53,7 @@ HEADER_DEPS = $(OBJS:.o=.d)
 
 clean:
 	rm -f $(OBJS) $(HEADER_DEPS)
-	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) || true
+	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) 2>/dev/null || true
 
 fclean: clean
 	rm -f $(NAME)
