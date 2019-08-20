@@ -21,7 +21,7 @@
 ** Return: The string reversed
 */
 
-char	*ft_strrev(char const *s)
+char	*ft_strrev(char const * const s)
 {
 	size_t	len;
 	size_t	i;
