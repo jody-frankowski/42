@@ -29,7 +29,7 @@ DEPS = $(OBJS:.o=.d)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	ar ruc $(NAME) $?
+	ar rc $(NAME) $?
 	ranlib $(NAME)
 
 -include $(DEPS)
