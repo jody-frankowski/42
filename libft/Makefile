@@ -109,10 +109,6 @@ PHONY += memcheck
 memcheck: tests
 	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes test/test
 
-PHONY += test
-test: tests
-	test/test
-
 PHONY += tests
 tests:
 	make -C test/

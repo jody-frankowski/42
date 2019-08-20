@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -euxo pipefail
+
+cd "$(dirname "$0")/.."
+
+if perl script/kernel-doc -none src/* 2>&1 | grep warning > /dev/null ; then
+	perl script/kernel-doc -none src/*
+	exit -1
+fi
+
+make tests
+test/test
