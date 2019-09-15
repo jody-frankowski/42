@@ -1,0 +1,21 @@
+# Identify and display the Ethernet interface characteristics:
+
+# Identify broadcast address
+for i in $(ifconfig -lu) ; do
+	if ifconfig -v $i | grep -q "type: Ethernet" ; then
+		echo $i
+		ifconfig $i | grep broadcast | awk '{print $6}'
+	fi
+done
+
+# Identify all IP adresses which are part of the same subnet
+
+# If the question is to identify the range of ip addresses that are in the same
+# subnet as the broadcast address
+# ipcalc BROADCAST_CIDR
+
+# If the question is to identify all the ip addresses that "answer" and that are
+# in the same subnet as the broadcast address
+# ping BROADCAST_ADDRESS
+# OR
+# nmap -sn BROADCAST_CIDR

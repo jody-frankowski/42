@@ -1,0 +1,5 @@
+# What command can you use to rename your system?
+hostnamectl set-hostname NEWHOSTNAME
+
+# OR
+# hostname

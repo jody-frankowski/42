@@ -1,0 +1,9 @@
+# Name the command that lists the partition tables of drives?
+fdisk -l
+
+# OR
+# gdisk -l
+# OR
+# parted -l
+# OR
+# lsblk

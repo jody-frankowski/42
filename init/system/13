@@ -1,0 +1,9 @@
+# Name the command that find, in real time, currently running processes
+ps aux
+
+# OR
+# ps -A
+# OR
+# ps with other options
+# OR
+# cat /proc/*/cmdline

@@ -1,0 +1,6 @@
+# Find the command that kills ssh service
+systemctl kill sshd.service --signal=SIGTERM
+systemctl kill sshd.service --signal=SIGKILL
+
+# OR
+# killall sshd

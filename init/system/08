@@ -1,0 +1,3 @@
+# What file contains the RSA keys of systems that are authorized to connect via SSH?
+# Usually they are in ~/.ssh/authorized_keys{,2}
+# But this setting can be changed in /etc/sshd_config

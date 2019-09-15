@@ -1,0 +1,4 @@
+# Identify the network devices between your computer and the slash16.org domain
+for ip in $(dig slash16.org +short) ; do
+	traceroute "$ip"
+done

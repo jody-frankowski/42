@@ -1,0 +1,9 @@
+# List all services which are started at boot time and name this kind of services
+systemctl list-unit-files --state=enabled
+
+# OR
+# chkconfig --list
+
+# They don't have a particular name. "daemon" wouldn't be perfectly appropriate
+# because they are services that run in background, but are not necessarily
+# started at boot. So I would just call them "services that are started at boot".

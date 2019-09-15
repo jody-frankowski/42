@@ -1,0 +1,7 @@
+# Name the command that determines the state of the SSH service.
+systemctl status sshd.service
+
+# OR
+# service sshd status
+# OR
+# /etc/init.d/sshd status

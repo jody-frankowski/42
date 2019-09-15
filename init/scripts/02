@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Write a script which delete an ACTIVE user on the VM.
+
+if grep "^$1$" <(who | awk '{print $1}' | sort -u) ; then
+	userdel -f "$1"
+fi
+
+# OR
+# userdel "$1"

@@ -1,0 +1,7 @@
+# Identify the MAC address of the Wi-Fi card
+for i in $(ifconfig -lu) ; do
+	if ifconfig -v $i | grep -q "type: Wi-Fi" ; then
+		echo $i
+		ifconfig $i | grep ether | awk '{print $2}'
+	fi
+done

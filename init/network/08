@@ -1,0 +1,9 @@
+# Find the provider of slash16.org
+
+# If the question is "What are the providers of the servers hosting the domain slash16.org?"
+for ip in $(dig slash16.org +short) ; do
+	whois "$ip"
+done
+
+# If the question is "What is the provider of the domain name slash16.org?"
+whois slash16.org

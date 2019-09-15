@@ -1,0 +1,4 @@
+# What file has to be modified to make it permanent?
+
+# Technically with `hostnamectl set-hostname` none, because the tool does it for us
+/etc/hostname

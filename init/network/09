@@ -1,0 +1,62 @@
+# Find the external IP of 42.fr
+
+# If the question is "What are the IPs addresses of the server hosting the domain 42.fr as seen from the Internet?"
+# dig @1.1 42.fr
+
+; <<>> DiG 9.8.3-P1 <<>> @1.1 42.fr
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 10634
+;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;42.fr.                         IN      A
+
+;; ANSWER SECTION:
+42.fr.                  2247    IN      A       163.172.250.11
+42.fr.                  2247    IN      A       163.172.250.12
+42.fr.                  2247    IN      A       163.172.250.13
+
+;; Query time: 10 msec
+;; SERVER: 1.0.0.1#53(1.0.0.1)
+;; WHEN: Sun Jun 23 16:59:46 2019
+;; MSG SIZE  rcvd: 71
+
+
+# If the question is "What are the IPs addresses of the server hosting the domain 42.fr as seen locally?"
+# dig 42.fr
+
+; <<>> DiG 9.8.3-P1 <<>> 42.fr
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 8966
+;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 13, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;42.fr.                         IN      A
+
+;; ANSWER SECTION:
+42.fr.                  2214    IN      A       163.172.250.12
+42.fr.                  2214    IN      A       163.172.250.11
+42.fr.                  2214    IN      A       163.172.250.13
+
+;; AUTHORITY SECTION:
+.                       603     IN      NS      d.root-servers.net.
+.                       603     IN      NS      a.root-servers.net.
+.                       603     IN      NS      g.root-servers.net.
+.                       603     IN      NS      h.root-servers.net.
+.                       603     IN      NS      b.root-servers.net.
+.                       603     IN      NS      f.root-servers.net.
+.                       603     IN      NS      c.root-servers.net.
+.                       603     IN      NS      i.root-servers.net.
+.                       603     IN      NS      e.root-servers.net.
+.                       603     IN      NS      m.root-servers.net.
+.                       603     IN      NS      j.root-servers.net.
+.                       603     IN      NS      l.root-servers.net.
+.                       603     IN      NS      k.root-servers.net.
+
+;; Query time: 0 msec
+;; SERVER: 10.51.1.5#53(10.51.1.5)
+;; WHEN: Sun Jun 23 17:00:12 2019
+;; MSG SIZE  rcvd: 282

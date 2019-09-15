@@ -1,0 +1,7 @@
+# Name the command that reboots the SSH service.
+systemctl restart sshd.service
+
+# OR
+# service sshd restart
+# OR
+# /etc/init.d/sshd restart

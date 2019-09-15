@@ -1,0 +1,2 @@
+# Query an external DNS server on the slash16.org domain name (ie. : google 8.8.8.8)
+dig @8.8.8.8 slash16.org

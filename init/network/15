@@ -1,0 +1,2 @@
+# Make the intra.42.fr address reroute to 46.19.122.85
+# echo '46.19.122.85 intra.42.fr' >> /etc/hosts

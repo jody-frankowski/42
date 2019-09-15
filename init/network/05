@@ -1,0 +1,7 @@
+# Identify the IP address of the DNS that responds to the following url: slash16.org
+
+# If the question is "What is the configured DNS server for the current system (non-macOS specific) ?"
+cat /etc/resolv.conf
+
+# If the question is "What are the IPs addresses of the servers hosting the domain slash16.org?"
+dig a slash16.org

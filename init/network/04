@@ -1,0 +1,3 @@
+# Identifiy the default gateway in the routing table
+netstat -nr -f inet | grep default | awk '{print $6 " " $2}'
+netstat -nr -f inet6 | grep default | awk '{print $4 " " $2}'

@@ -1,0 +1,10 @@
+# Find the IP that was assigned to you by dhcp server
+for i in $(ifconfig -lu) ; do
+	if ipconfig getpacket $i | grep BOOTREPLY > /dev/null ; then
+		echo $i
+		ipconfig getpacket $i | grep yiaddr | awk '{print $3}'
+	fi
+done
+
+# OR
+# Parse the output of $(system_profiler -xml SPNetworkDataType)

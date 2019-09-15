@@ -1,0 +1,19 @@
+# Thanks to the previous question and the reverse DNS find the name of your host
+# for i in $(ifconfig -lu) ; do
+# 	echo $i
+# 	for ip in $(ifconfig $i | grep inet | awk '{print $2}') ; do
+# 		dig +short -x "$ip"
+# 	done
+# done
+
+lo0
+localhost.
+en0
+z1r6p6.le-101.fr.
+en1
+en2
+en3
+bridge0
+p2p0
+awdl0
+utun0

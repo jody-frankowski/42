@@ -1,0 +1,4 @@
+# Explain how connect yourself as new user. (With graphic session and ssh session)
+# ...
+# graphic: Type username and password (or use whatever else authentication method that has been configured)
+# ssh: Type ssh username@host and type password (or use whatever else authentication method that has been configured)

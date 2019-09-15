@@ -1,0 +1,553 @@
+#!/bin/bash
+
+# Three's a Charm. Write a script of you choice.
+
+# This script requires an Arch Linux iso or chroot mostly because of `genfstab`
+
+# TODO Support both btrfs and zfs (zfs for server and btrfs for everything else)
+# TODO Support remote unlocking with initramfs (for encrypted / for server). Bonus points!
+
+set -eo pipefail
+
+ansible_configure () {
+    case $os in
+        arch)
+            chroot /mnt pacman --noconfirm -S ansible git openssh
+            ;;
+        gentoo)
+            chroot /mnt /usr/bin/emerge ansible dev-vcs/git
+            ;;
+    esac
+
+    # TODO Replace by a symlink when https://github.com/systemd/systemd/issues/2001 is fixed
+    # Maybe not because of /mnt/{dev,proc,sys} mounts
+    [ -d /var/lib/machines/ct ] || mkdir /var/lib/machines/ct
+    # mount --rbind /mnt /var/lib/machines/ct
+    # Maybe mount directly?
+    mount --bind /mnt/ /var/lib/machines/ct
+    mount --bind /mnt/boot /var/lib/machines/ct/boot
+    mount --bind /mnt/home /var/lib/machines/ct/home
+
+    # Share network configuration with host
+    mkdir -p /etc/systemd/system/systemd-nspawn@.service.d/
+    cat > /etc/systemd/system/systemd-nspawn@.service.d/override.conf <<EOF
+[Service]
+ExecStart=
+ExecStart=/usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --machine=%I
+EOF
+
+    machinectl start ct
+    # It seems that we need to wait for the container to be properly booted to start Ansible
+    sleep 1
+
+    # Share the ssh agent keys with the container
+   bash -c "
+trap '{ kill 0; exit; kill 0; }' SIGINT;
+while true; do
+   rm /var/lib/machines/ct/ssh-auth-sock ; ncat -l -U /var/lib/machines/ct/ssh-auth-sock -c \"ncat -U $SSH_AUTH_SOCK\"
+done
+" &
+   pid=$!
+
+    # ansible-pull doesn't seem to use inventory vars https://github.com/ansible/ansible/issues/15766
+    if [ "$os" = "arch" ] ; then
+        ansible_pull_options="-e ansible_python_interpreter=/usr/bin/python2"
+    fi
+    # TODO setup ssh known_hosts
+    machinectl --setenv=SSH_AUTH_SOCK=/ssh-auth-sock shell ct /usr/bin/ansible-pull --accept-host-key $ansible_pull_options -U $ansible_url $ansible_playbook
+
+    # clean up when done
+   kill -sigint $pid
+}
+
+chroot () {
+    dir="$1"
+    shift
+    /usr/bin/chroot "$dir" /bin/sh -c "source /etc/profile && $*"
+}
+
+efibootmgr_setup () {
+    # TODO do efibootmgr to boot on grub next time???
+    #efibootmgr -c -d ${disk} -p 1 -L grub -l "\efi\grub\grubx64.efi"
+    #efibootmgr -n $(efibootmgr | grep grub | cut -d\* -f1 | )
+    return 0
+}
+
+install_arch () {
+    # Steps are documented here https://wiki.archlinux.org/index.php/Installation_guide
+    # and here https://wiki.archlinux.org/index.php/Install_from_existing_Linux
+
+    pushd /mnt
+    # Mirrorlist will be copied to the chrooted system
+    curl "https://www.archlinux.org/mirrorlist/?country=FR&protocol=http&ip_version=4&ip_version=6&use_mirror_status=on" | sed 's/#Server/Server/' > /etc/pacman.d/mirrorlist
+
+    # Fetch sources so pacman -Sg will work on livecd
+    pacman -Sy
+    # Package ignore doesn't work :(
+    pacman -Sg base base-devel | cut -d' ' -f2 | grep -Ev "jfsutils|licenses|lvm2|mdadm|nano|pcmciautils|reiserfsprogs|xfsprogs" | pacstrap -d . -
+    pacstrap . btrfs-progs cryptsetup intel-ucode
+
+    prepare_for_chroot
+    # TODO works????
+    chroot . pacman -Syu
+
+    genfstab -U . > etc/fstab
+
+    # Initramfs setup
+    cat > etc/mkinitcpio.conf <<EOF
+MODULES=""
+BINARIES="/usr/bin/btrfs"
+FILES=""
+HOOKS="base udev autodetect modconf block keyboard keymap consolefont encrypt fsck filesystems"
+COMPRESSION="lz4"
+COMPRESSION_OPTIONS=""
+EOF
+
+    chroot . mkinitcpio -p linux
+
+    echo "Installing bootloader."
+    chroot . pacman -S --noconfirm efibootmgr grub os-prober
+}
+
+install_gentoo () {
+    # https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Stage
+    # https://www.gentoo.org/downloads/signatures/
+    gpg --recv-keys "13EB BDBE DE7A 1277 5DFD B1BA BB57 2E0E 2D18 2910"
+
+    stage3_dir_url="http://gentoo.mirrors.ovh.net/gentoo-distfiles/releases/amd64/autobuilds/current-stage3-amd64-systemd/"
+    stage3=$(curl ${stage3_dir_url} \
+        | grep -o 'href.*tar.bz2\"' \
+        | cut -d\" -f 2)
+
+    curl -O ${stage3_dir_url}${stage3} -z ${stage3}
+    curl -O ${stage3_dir_url}${stage3}.DIGESTS.asc -z ${stage3}.DIGESTS.asc
+
+    if ! gpg --verify ${stage3}.DIGESTS.asc ; then
+        echo "Could not verify DIGESTS."
+        exit -1
+    fi
+    if ! sha512sum -c <(grep -A1 SHA512 ${stage3}.DIGESTS.asc | grep '.tar.bz2$') ; then
+        echo "Could not verify DIGESTS."
+        exit -1
+    fi
+
+    tar xjpf ${stage3} --xattrs --numeric-owner -C /mnt
+
+    pushd /mnt
+    read
+
+    # Configure portage make.conf
+    cat > etc/portage/make.conf <<EOF
+# These settings were set by the catalyst build script that automatically
+# built this stage.
+# Please consult /usr/share/portage/config/make.conf.example for a more
+# detailed example.
+CFLAGS="-march=native -O2 -pipe"
+CXXFLAGS="\${CFLAGS}"
+# WARNING: Changing your CHOST is not something that should be done lightly.
+# Please consult http://www.gentoo.org/doc/en/change-chost.xml before changing.
+CHOST="x86_64-pc-linux-gnu"
+# These are the USE flags that were used in addition to what is provided by the
+# profile used for building.
+USE="bindist threads"
+PORTDIR="/usr/portage"
+DISTDIR="\${PORTDIR}/distfiles"
+PKGDIR="\${PORTDIR}/packages"
+MAKEOPTS="-j$(nproc)"
+ACCEPT_KEYWORDS="~amd64"
+GENTOO_MIRRORS="http://gentoo.mirrors.ovh.net/gentoo-distfiles/"
+# REMOVE if grub works fine. Apparently emerging grub takes care of guessing the right platform
+# echo "GRUB_PLATFORMS=\"efi-64\"" >> etc/portage/make.conf
+#GRUB_PLATFORMS="efi-64"
+EOF
+
+    # https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base
+    # Configure main Gentoo repository
+    mkdir -p etc/portage/repos.conf/
+    cp usr/share/portage/config/repos.conf etc/portage/repos.conf/gentoo.conf
+
+    prepare_for_chroot
+
+    # Install the Portage snapshot
+    chroot . emerge-webrsync
+    chroot . emerge --sync --quiet
+    chroot . eselect news read > /dev/null
+
+    # Install cpuid2cpuflags for the cpuinfo2cpuflags-x86 binary
+    chroot . emerge cpuid2cpuflags
+    chroot . 'echo CPU_FLAGS_X86=\"$(cpuinfo2cpuflags-x86 | cut -d: -f 2 | tail -c +2)\" >> /etc/portage/make.conf'
+
+    # Set locale
+    # Should be done before emerge -u @world so that it won't generate every
+    # possible locale
+    chroot . 'echo "en_US.UTF-8 UTF-8" > /etc/locale.gen'
+
+    # Update the @world set
+    chroot . emerge app-editors/nvi
+    chroot . emerge -cv nano
+    chroot . emerge -u gcc --backtrack=999
+    chroot . 'gcc-config $(gcc-config -l | tail -1 | awk '\''{print $2}'\'')'
+    chroot . emerge -uDN --with-bdeps=y @world
+    chroot . emerge --depclean
+
+    # https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Kernel
+    mkdir -p etc/portage/package.use/
+    # echo "sys-kernel/gentoo-sources symlink" > etc/portage/package.use/gentoo-sources
+    # chroot . emerge gentoo-sources
+    echo "sys-kernel/hardened-sources symlink" > etc/portage/package.use/hardened-sources
+    chroot . emerge hardened-sources
+    # Required by CONFIG_STACK_VALIDATION
+    chroot . emerge elfutils
+    # TODO remove
+    read
+    cp "$kconfig" ./usr/src/linux/.config
+    chroot . "cd /usr/src/linux && make -j$(nproc)"
+    chroot . "cd /usr/src/linux && make -j$(nproc) modules_install"
+    chroot . "cd /usr/src/linux && make install"
+    # echo "sys-kernel/genkernel-next cryptsetup" > etc/portage/package.use/genkernel-next
+    # chroot . emerge genkernel-next
+    # chroot . genkernel initramfs --luks
+    # chroot . "cd /root && curl -OL https://github.com/slashbeast/better-initramfs/archive/master.zip && unzip master.zip"
+    # chroot . "cd /root/better-initramfs-master && make -j$(nproc) bootstrap-all && make -j$(nproc) prepare && make -j$(nproc) image"
+    # version=$(basename $(realpath ./usr/src/linux/) | cut -d- -f2,3)
+    # chroot . "cp /root/better-initramfs-master/output/initramfs.cpio.gz /boot/initramfs-${version}.img"
+
+    chroot . emerge sys-kernel/linux-firmware
+
+    # https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/System
+    genfstab -U /mnt > etc/fstab
+
+    # https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Tools
+    chroot . emerge sys-fs/btrfs-progs sys-fs/dosfstools
+
+    # https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Bootloader
+    # Bootloader setup
+    # REMOVE if grub works fine. Apparently emerging grub takes care of guessing the right platform
+    # echo "GRUB_PLATFORMS=\"efi-64\"" >> etc/portage/make.conf
+    chroot . emerge sys-boot/grub
+}
+
+partition () {
+    swap_size=$(swap_size)
+
+    if [[ $raid1 == true ]] ; then
+        boot_partition=/dev/md/esp
+        swap_partition=/dev/md/swap
+        main_partition=/dev/md/main
+        # read always returns 1 when the delimiter is NULL
+        set +e
+        read -d '' layout <<EOF
+label: gpt
+
+size=5MiB,         type=21686148-6449-6E6F-744E-656564454649, name="BIOS boot", bootable
+size=1GiB,         type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B, name="EFI system partition"
+size=${swap_size}, type=A19D880F-05FC-4D3B-A006-743F0F84911E, name="RAID1 swap"
+                   type=A19D880F-05FC-4D3B-A006-743F0F84911E, name="RAID1 Linux /"
+EOF
+        set -e
+    else
+        boot_partition="${disks[0]}*1"
+        swap_partition="${disks[0]}*2"
+        main_partition="${disks[0]}*3"
+        # read always returns 1 when the delimiter is NULL
+        set +e
+        read -d '' layout <<EOF
+label: gpt
+
+size=1GiB,         type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B, name="EFI system partition", bootable
+size=${swap_size}, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F, name="Linux Swap"
+                   type=CA7D7CCB-63ED-4C53-861C-1742536059CC, name="Linux /"
+EOF
+        set -e
+    fi
+
+    if [[ $encrypted_main == true ]] ; then
+        if [[ -z "${passphrase}" ]] ; then
+            passphrase_confirm="PLACEHOLDER"
+
+            while [ "${passphrase}" != "${passphrase_confirm}" ] ; do
+                read -s -p "Luks passphrase: " -r passphrase
+                read -s -p "Confirm Luks passphrase: " -r passphrase_confirm
+            done
+        fi
+    fi
+
+    # Try to release and clean devices before partitioning and formatting
+    # Also allows running this script several times if there is an error later
+    set +e
+    umount -R /mnt
+    cryptsetup close /dev/mapper/cryptmain
+    set -e
+    mdadm --stop --scan
+    for disk in ${disks[*]} ; do
+        for partition in ${disk}? ; do
+            [ -b ${partition} ] && wipefs -a ${partition}
+        done
+
+        wipefs -a $disk
+    done
+
+    for disk in ${disks[*]} ; do
+        echo "# Partitionning ${disk}"
+        sfdisk ${disk} <<< "$layout"
+    done
+
+    echo "# Formatting disks"
+    if [[ $raid1 == true ]] ; then
+        # TODO check if 1.0 really needed for grub
+        mdadm -v --create ${boot_partition} ${disks[0]}*2 ${disks[1]}*2 --level=1 --raid-devices=2 -R -e 1.0
+        mdadm -v --create ${swap_partition} ${disks[0]}*3 ${disks[1]}*3 --level=1 --raid-devices=2 -R --assume-clean
+        mdadm -v --create ${main_partition} ${disks[0]}*4 ${disks[1]}*4 --level=1 --raid-devices=2 -R --assume-clean
+        # set +e
+        # mdadm -v --wait   ${boot_partition} ${swap_partition} ${main_partition}
+        # set -e
+    fi
+
+    mkfs.fat ${boot_partition}
+    mkswap   ${swap_partition}
+
+    if [[ $encrypted_main == true ]] ; then
+        echo "# Encrypting main partition"
+        echo -n $passphrase | cryptsetup luksFormat ${main_partition}
+        echo $passphrase | cryptsetup open ${main_partition} cryptmain --type luks
+        btrfs_partition=/dev/mapper/cryptmain
+    else
+        btrfs_partition=${main_partition}
+    fi
+
+    mkfs.btrfs -f $btrfs_partition
+    mount $btrfs_partition /mnt
+
+    btrfs subvolume create /mnt/@
+    btrfs subvolume create /mnt/@home
+    btrfs subvolume create /mnt/@snapshots
+
+    umount /mnt
+    mount -o noatime,subvol=@ $btrfs_partition /mnt
+    mkdir /mnt/home
+    mount -o noatime,subvol=@home $btrfs_partition /mnt/home
+    mkdir /mnt/.snapshots
+    mount -o noatime,subvol=@snapshots $btrfs_partition /mnt/.snapshots
+
+    if [[ $os = arch ]] ; then
+        mkdir -p /mnt/var/
+        btrfs subvolume create /mnt/var/abs
+
+        mkdir -p /mnt/var/cache/pacman
+        btrfs subvolume create /mnt/var/cache/pacman/pkg
+    fi
+
+    mkdir -p /mnt/var/
+    btrfs subvolume create /mnt/var/tmp
+
+    mkdir /mnt/boot
+    mount ${boot_partition} /mnt/boot
+}
+
+prepare_for_chroot () {
+    # https://wiki.archlinux.org/index.php/installation_guide#Update_the_system_clock
+    # https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#Setting_the_date_and_time
+    ntpd -gq
+
+    # TODO remove, arch and gentoo rootfs seem to already have those
+    # mkdir /mnt/{dev,etc,proc,sys}
+
+    # Copy DNS info
+    cp /etc/resolv.conf /mnt/etc/resolv.conf
+
+    # Mount the necessary filesystems
+    mount --rbind /dev /mnt/dev
+    mount --make-rslave /mnt/dev
+    mount -t proc proc /mnt/proc
+    mount --rbind /sys /mnt/sys
+    mount --make-rslave /mnt/sys
+}
+
+setup_grub () {
+    if [[ $raid1 == true ]] ; then
+        # Bios boot when using raid (assuming it's a server)
+        # TODO make raid efi compatible
+        chroot . grub-install --target=i386-pc /dev/sda
+        chroot . grub-install --target=i386-pc /dev/sdb
+    else
+        chroot . grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
+
+        efibootmgr_setup
+    fi
+
+    if [[ $encrypted_main == true ]] ; then
+        if [[ $os = arch ]] ; then
+            # mkinitcpio specific
+            cryptdevice="cryptdevice=UUID=$(lsblk -rno UUID $disk*3 | head -n1):root"
+
+            if hdparm -I ${disks[0]} | grep TRIM ; then
+                discard=":allow-discards"
+            fi
+        else
+            # genkernel specific
+            # TODO choose and configure a bootloader
+            cryptdevice="crypt_root=UUID=$(lsblk -rno UUID $disk*3 | head -n1)"
+
+            if hdparm -I ${disks[0]} | grep TRIM ; then
+                discard=" root_trim=yes"
+            fi
+        fi
+    else
+        cryptdevice=""
+        discard=""
+    fi
+
+    echo "GRUB_CMDLINE_LINUX=\"${cryptdevice}${discard}\"" >> etc/default/grub
+
+    chroot . grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+set_hostname () {
+    echo $hostname > /mnt/etc/hostname
+}
+
+swap_size () {
+    # Determines swap size based on available memory
+    memory=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}')
+
+    if [[ $memory -gt 30000000 ]] ; then
+        echo "8GiB"
+    else
+        echo "2GiB"
+    fi
+}
+
+usage () {
+    echo "Usage: $0 [OPTION]..."
+    echo "Options:"
+    echo "-ap, --ansible-playbook    Ansible playbook to use when -au is used. Default: ${ansible_playbook}"
+    echo "-au, --ansible-url         Ansible repository to use to bootstrap the machine"
+    echo "     --disk                Main disk to use. Specify two times when using raid1."
+    echo "-du  --dotfiles-url        Dotfiles URL"
+    echo "-ne  --no-encryption       Disable main partition encryption. Default: encryption enabled"
+    echo "-h,  --help                Show this help"
+    echo "     --hostname            Hostname of the machine"
+    echo "     --kconfig             Kernel config to use"
+    echo "     --no-tmux             Don't start a tmux session"
+    echo "     --os                  Os to use. Allowed values are arch or gentoo. Default: arch"
+    echo "     --raid1               Do raid1 partitioning. Default: false"
+    echo "     --server              Starts a Tmux with an arch chroot and calls this script with: --raid1 --disk /dev/sda --disk /dev/sdb "
+    echo "                           --raid1 --disk /dev/sda --disk /dev/sdb -ne -au git@git.jody.io:config.git --hostname a.jody.io"
+    # echo "     --win                 support windows when formatting (TODO)"
+    echo "     --zfs                 Format root filesystem with zfs (defaults to btrfs)"
+
+    exit -1
+}
+
+# Set defaults
+ansible_playbook="main.yml"
+disks=()
+encrypted_main=true
+no_tmux=false
+os="arch"
+raid1=false
+root_fs="btrfs"
+# win=1
+
+# Save the arguments before parsing them
+args="$@"
+
+# Parse arguments
+while [[ $# -gt 0 ]] ; do
+    arg="$1"
+
+    case $arg in
+        -ap|--ansible-playbook)
+            ansible_playbook="$2"
+            shift
+            ;;
+        -au|--ansible-url)
+            ansible_url="$2"
+            shift
+            ;;
+        --disk)
+            disks+=("$2")
+            shift
+            ;;
+        -du|--dotfiles-url)
+            dotfiles_url="$2"
+            shift
+            ;;
+        -ne|--no-encryption)
+            encrypted_main=false
+            ;;
+        -h|--help)
+            usage
+            ;;
+        --hostname)
+            hostname="$2"
+            shift
+            ;;
+        --kconfig)
+            kconfig=$(realpath "$2")
+            shift
+            ;;
+        --no-tmux)
+            no_tmux=true
+            ;;
+        --os)
+            os="$2"
+            shift
+            ;;
+        # TODO remove. for dev purpose only
+        --passphrase)
+            passphrase="$2"
+            shift
+            ;;
+        --raid1)
+            raid1=true
+            ;;
+        --server)
+            ansible_url="git@gitlab.com:jody-frankowski/config.git"
+            disks=(/dev/sda /dev/sdb)
+            encrypted_main=false
+            hostname="a.jody.io"
+            raid1=true
+            ;;
+        # --win)
+        #     win=0
+        #     ;;
+        --zfs)
+            root_fs="zfs"
+            ;;
+    esac
+
+    shift
+done
+
+if [[ $no_tmux == false ]] ; then
+    pacman -Qi tmux || (pacman -Sy && pacman -S tmux)
+    tmux new-session -d "sleep 2"
+    tmux set -g history-limit 10000
+    echo "$args"
+    tmux new-session "curl jody.io/arch-chroot -O ; bash -x arch-chroot 'cd ~ ; curl -O jody.io/install ; bash -x install --no-tmux $args' ; sleep 1000"
+    tmux attach
+    sleep 1000
+    exit 0
+fi
+
+if [[ -z "$hostname" ]] ; then
+    echo "Hostname isn't set."
+    usage
+    exit -1
+fi
+
+partition
+install_${os}
+setup_grub
+set_hostname
+
+# Ansible
+if [ -n $ansible_url ] ; then
+    ansible_configure
+fi
+
+# Dotfiles
+if [ -n $dotfiles_url ] ; then
+    manage_dotfiles
+fi
