@@ -16,7 +16,7 @@
 
 void	ft_err_exit(int statement_value, const char *error_message)
 {
-	if (!statement_value)
+	if (statement_value)
 	{
 		ft_putstr_fd(error_message, 2);
 		exit(-1);
