@@ -28,6 +28,7 @@
 int	ft_read_all(int fd, char **buf)
 {
 	char	tmp[BUFSIZ];
+	char	*new_buf;
 	ssize_t	read_size;
 	ssize_t	total;
 
@@ -37,8 +38,10 @@ int	ft_read_all(int fd, char **buf)
 	while ((read_size = read(fd, tmp, BUFSIZ)) > 0)
 	{
 		total += read_size;
-		if (!(*buf = ft_realloc(buf, total - read_size, total)))
+		new_buf = ft_realloc(*buf, total - read_size, total);
+		if (!new_buf)
 			return (0);
+		*buf = new_buf;
 		ft_memcpy((*buf) + total - read_size, tmp, read_size);
 	}
 	if (read_size == -1)
