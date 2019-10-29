@@ -22,7 +22,7 @@
 **
 ** Sets @buf to point to the malloced memory containing the read.
 **
-** Return: the total number of bytes read or 0 on error
+** Return: the total number of bytes read or -1 on error
 */
 
 int	ft_read_all(int fd, char **buf)
@@ -41,7 +41,7 @@ int	ft_read_all(int fd, char **buf)
 			return (0);
 	}
 	if (read_size == -1)
-		return (0);
+		return (-1);
 	else
 		return (total);
 }
