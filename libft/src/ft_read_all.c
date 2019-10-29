@@ -39,6 +39,7 @@ int	ft_read_all(int fd, char **buf)
 		total += read_size;
 		if (!(*buf = ft_realloc(buf, total - read_size, total)))
 			return (0);
+		ft_memcpy((*buf) + total - read_size, tmp, read_size);
 	}
 	if (read_size == -1)
 		return (-1);
