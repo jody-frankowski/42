@@ -11,18 +11,16 @@
 #                                                         /                    #
 #******************************************************************************#
 
-# The real PHONY target is set at the end of the Makefile
-.PHONY = all clean fclean norm re
-
 CC = gcc
 COMPILER = $(shell gcc -v 2>&1 | grep 'Apple LLVM' > /dev/null && echo "clang" || echo "gcc")
 UNAME := $(shell uname)
 
 ### CFLAGS
-CFLAGS  = -Wall -Wextra -Werror -Werror=vla
+CFLAGS  = -Wall -Wextra -Werror
 CFLAGS += -Werror=format=2
 CFLAGS += -Werror=null-dereference
 CFLAGS += -Werror=shadow
+CFLAGS += -Werror=vla
 CFLAGS += -pipe -std=gnu99 -march=native
 
 ifeq ("$(COMPILER)", "gcc")
@@ -57,6 +55,7 @@ SRC_DIR   = src
 SRCS      = $(wildcard $(SRC_DIR)/*.c)
 OBJS      = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
+PHONY += all
 all: $(NAME)
 
 $(NAME): $(DEPENDENCIES) $(OBJS)
@@ -85,13 +84,16 @@ $(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 HEADER_DEPS = $(OBJS:.o=.d)
 -include $(HEADER_DEPS)
 
+PHONY += clean
 clean:
 	rm -f $(OBJS) $(HEADER_DEPS)
 	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) 2>/dev/null || true
 
+PHONY += fclean
 fclean: clean
 	rm -f $(NAME)
 
+PHONY += norm
 norm:
 	norminette include/ src/
 
@@ -99,18 +101,33 @@ norm:
 print-% :
 	@echo $* = $($*)
 
+PHONY += re
 re: fclean all
 
 PHONY += debug
 debug: tests
+ifeq ($(NAME),test)
+	lldb ./test
+else
 	lldb test/test
+endif
 
 PHONY += memcheck
 memcheck: tests
-	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes test/test
+ifeq ($(NAME),test)
+	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes \
+	./test
+else
+	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes \
+	test/test
+endif
 
 PHONY += tests
 tests:
+ifeq ($(NAME),test)
+	make test
+else
 	make -C test/
+endif
 
 .PHONY: $(PHONY)
