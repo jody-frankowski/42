@@ -122,6 +122,14 @@ else
 	test/test
 endif
 
+PHONY += run
+run: tests
+ifeq ($(NAME),test)
+	./test
+else
+	test/test
+endif
+
 PHONY += tests
 tests:
 ifeq ($(NAME),test)
