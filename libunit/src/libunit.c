@@ -100,7 +100,7 @@ void	run_test(
 	if (g_timeout_triggered)
 	{
 		g_timeout_triggered = 0;
-		printf("%s: [%s] (%s:%lu)\n", name, TEST_TIMEOUT, file, line);
+		printf("%s@(%s:%lu): Timeout\n", name, file, line);
 	}
 	else if (!WIFEXITED(status) && WIFSIGNALED(status))
 	{

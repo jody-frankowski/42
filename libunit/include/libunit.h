@@ -17,8 +17,6 @@
 # include <stdio.h>
 # include <string.h>
 
-# define TEST_TIMEOUT "Timeout"
-
 # define RUN_TEST(func) run_test(func, #func, __FILE__, __LINE__)
 
 /*
