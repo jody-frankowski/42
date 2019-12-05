@@ -33,7 +33,8 @@
 		dprintf( \
 			2, \
 			"%s@(%s:%d): %s !%s %s (%#llx !%s %#llx)\n", \
-			__func__, __FILE__, __LINE__, #left, #op, #right, (unsigned long long)_left, #op, (unsigned long long)_right); \
+			__func__, __FILE__, __LINE__, #left, #op, #right, \
+			(unsigned long long)_left, #op, (unsigned long long)_right); \
 	} \
 } while (0)
 
