@@ -141,7 +141,7 @@ void test_ft_charcasecmp()
 	while (i < 26)
 	{
 		ASSERT_EQUAL_INT(0, ft_charcasecmp('a'+i, 'A'+i));
-		ASSERT_EQUAL_INT(33, ft_charcasecmp('a'+i+1, 'A'+i));
+		ASSERT_EQUAL_INT(1, ft_charcasecmp('a'+i+1, 'A'+i));
 		i++;
 	}
 	i = 0;

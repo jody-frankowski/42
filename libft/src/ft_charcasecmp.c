@@ -15,10 +15,5 @@
 
 int	ft_charcasecmp(char c1, char c2)
 {
-	if (ft_isalpha(c1) && ft_isalpha(c2))
-	{
-		if ((c1 | 1 << 5) == (c2 | 1 << 5))
-			return (0);
-	}
-	return ((unsigned char)c1 - (unsigned char)c2);
+	return (ft_tolower(c1) - ft_tolower(c2));
 }
