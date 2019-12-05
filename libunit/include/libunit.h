@@ -99,8 +99,11 @@
 	} \
 } while (0)
 
-int start_fd_capture(int fd);
-int stop_fd_capture(int fd, char **output);
-void	run_test(void (*func)(void), const char *name, const char *file, size_t line);
+int	start_fd_capture(int fd);
+int	stop_fd_capture(int fd, char **output);
+void	run_test(void (*func)(void),
+				const char *name,
+				const char *file,
+				size_t line);
 
 #endif
