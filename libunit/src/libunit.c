@@ -104,6 +104,6 @@ void	run_test(
 	}
 	else if (!WIFEXITED(status) && WIFSIGNALED(status))
 	{
-		printf("%s: N%d [%s] (%s:%lu)\n", name, WTERMSIG(status), sys_siglist[WTERMSIG(status)], file, line);
+		printf("%s@(%s:%lu): %s\n", name, file, line, sys_siglist[WTERMSIG(status)]);
 	}
 }
