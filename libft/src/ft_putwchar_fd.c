@@ -25,7 +25,7 @@
 ** 0x00 0xE1 0x8C 0xB7
 */
 
-void	ft_putwchar_fd(int c, int fd)
+void	ft_putwchar_fd(int fd, int c)
 {
 	int i;
 
@@ -33,7 +33,7 @@ void	ft_putwchar_fd(int c, int fd)
 	while (i >= 0)
 	{
 		if (c >> (8 * i))
-			ft_putchar_fd(c >> (8 * i), fd);
+			ft_putchar_fd(fd, c >> (8 * i));
 		i--;
 	}
 }

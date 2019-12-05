@@ -25,7 +25,7 @@ void	ft_err_exit(int is_error, const char *error_message)
 {
 	if (is_error)
 	{
-		ft_putstr_fd(error_message, 2);
+		ft_putstr_fd(2, error_message);
 		exit(-1);
 	}
 }
