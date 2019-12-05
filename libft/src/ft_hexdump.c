@@ -23,6 +23,18 @@
 
 void	ft_hexdump(const void *ptr, size_t len)
 {
+	ft_hexdump_fd(1, ptr, len);
+}
+
+/*
+** ft_hexdump_fd - Print a basic hexdump to a file descriptor
+** @fd:  File descriptor to print to
+** @ptr: Pointer to the memory to print
+** @len: How much bytes to print
+*/
+
+void	ft_hexdump_fd(int fd, const void *ptr, size_t len)
+{
 	size_t			i;
 	size_t			j;
 	const t_byte	*mem = ptr;
@@ -33,19 +45,19 @@ void	ft_hexdump(const void *ptr, size_t len)
 		j = 0;
 		while (j < HEXDUMP_WIDTH && i + j < len)
 		{
-			printf("%02hhx ", mem[i + j]);
+			dprintf(fd, "%02hhx ", mem[i + j]);
 			j++;
 		}
 		j = 0;
 		while (j < HEXDUMP_WIDTH && i + j < len)
 		{
 			if (isprint(mem[i + j]))
-				printf("%c", mem[i + j]);
+				dprintf(fd, "%c", mem[i + j]);
 			else
-				printf(".");
+				dprintf(fd, ".");
 			j++;
 		}
-		printf("\n");
+		dprintf(fd, "\n");
 		i += HEXDUMP_WIDTH;
 	}
 }
