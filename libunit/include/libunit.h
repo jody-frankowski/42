@@ -99,8 +99,6 @@
 	} \
 } while (0)
 
-// TODO Decide if start/stop fd captures need a macro wrapper
-
 int start_fd_capture(int fd);
 int stop_fd_capture(int fd, char **output);
 void	run_test(void (*func)(void), const char *name, const char *file, size_t line);
