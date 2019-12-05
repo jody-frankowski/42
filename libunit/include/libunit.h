@@ -24,6 +24,10 @@
 ** @left:  The first operand
 ** @op:    A C operator
 ** @right: The second operand
+**
+** Like kunit we compare @left and @right with their proper types, but cast them
+** to unsigned long long when printing in order not to have to bother with more
+** types.
 */
 # define ASSERT(left, op, right) do { \
 	typeof(left) _left = (left); \
