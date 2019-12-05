@@ -3,30 +3,28 @@
 #include "libft.h"
 #include "libunit.h"
 
-void test_assert_mem_eq(void)
+void test_assert(void)
 {
 	char *test = "ABCDEFG";
-
-	ASSERT_MEM_EQ(test, test+1, 5);
+	ASSERT(strchr(test, 'D'), <, strchr(test, 'C'));
 }
 
-void test_assert_ptr_eq(void)
+void test_assert_obj(void)
 {
 	char *test = "ABCDEFG";
-
-	ASSERT_PTR_EQ(strchr(test, 'D'), strchr(test, 'C'));
+	ASSERT_OBJ(strcmp, test, "BCDEFG", == 0, ft_putstr_fd);
 }
 
-void test_assert_str_eq(void)
+void test_assert_nobj(void)
 {
 	char *test = "ABCDEFG";
-
-	ASSERT_STR_EQ(test, test+1);
+	ASSERT_NOBJ(memcmp, test, "BCDEFG", 6, == 0, ft_hexdump_fd);
 }
 
-void	test_bus_error(void)
+void	test_crash(void)
 {
-	ASSERT_STR_EQ(NULL, "");
+	int *test = NULL;
+	test[0] = 1;
 }
 
 void	test_fd_capture(void)
@@ -37,7 +35,7 @@ void	test_fd_capture(void)
 	ft_err_exit(start_fd_capture(1) != 0, "Failed to start fd capture!\n");
 	write(1, test, 6);
 	ft_err_exit(stop_fd_capture(1, &output) != 0, "Failed to stop fd capture!\n");
-	ASSERT_MEM_EQ(test, output+1, 6);
+	ASSERT_NOBJ(memcmp, test, output+1, 6, == 0, ft_hexdump_fd);
 	free(output);
 }
 
@@ -49,10 +47,10 @@ void test_timeout(void)
 
 int	main(void)
 {
-	RUN_TEST(test_assert_mem_eq);
-	RUN_TEST(test_assert_ptr_eq);
-	RUN_TEST(test_assert_str_eq);
-	RUN_TEST(test_bus_error);
+	RUN_TEST(test_assert);
+	RUN_TEST(test_assert_obj);
+	RUN_TEST(test_assert_nobj);
+	RUN_TEST(test_crash);
 	RUN_TEST(test_fd_capture);
 	RUN_TEST(test_timeout);
 }
