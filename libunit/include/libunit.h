@@ -86,10 +86,10 @@
 		dprintf( \
 			2, \
 			"%s@(%s:%d): %s(%s, %s) !%s:\n", \
-			__func__, __FILE__, __LINE__, #cmp, #left, #right, #op);	\
-		print(2, _left, len);											\
+			__func__, __FILE__, __LINE__, #cmp, #left, #right, #op); \
+		print(2, _left, len); \
 		dprintf(2, "\n"); \
-		print(2, _right, len);		   \
+		print(2, _right, len); \
 		dprintf(2, "\n"); \
 	} \
 } while (0)
