@@ -21,48 +21,49 @@
 
 /*
 ** ASSERT - Assert something and print an error if false
-** @left:  The first operand
-** @op:    A C operator
-** @right: The second operand
+** @left:      The first operand
+** @condition: A C operator
+** @right:     The second operand
 **
 ** Like kunit we compare @left and @right with their proper types, but cast them
 ** to unsigned long long when printing in order not to have to bother with more
 ** types.
 */
-# define ASSERT(left, op, right) do { \
+# define ASSERT(left, condition, right) do { \
 	typeof(left) _left = (left); \
 	typeof(right) _right = (right); \
-	if (!(_left op _right)) \
+	if (!(_left condition _right)) \
 	{ \
 		dprintf( \
 			2, \
 			"%s@(%s:%d): %s !%s %s (%#llx !%s %#llx)\n", \
-			__func__, __FILE__, __LINE__, #left, #op, #right, \
-			(unsigned long long)_left, #op, (unsigned long long)_right); \
+			__func__, __FILE__, __LINE__, #left, #condition, #right, \
+			(unsigned long long)_left, #condition, (unsigned long long)_right); \
 	} \
 } while (0)
 
 /*
 ** ASSERT_OBJ - Assert something about two objects and print them if error
-** @cmp:   A function that compares @left and @right, called like so:
-**         cmp(fd, typeof(left|right))
-** @left:  The first operand.
-** @right: The second operand
-** @op:    A C expression that will make "cmp(left, right) op" evaluate properly
-** @print: A function that can print @left and @right and takes a file
-**         descriptor as a first argument, called like so:
-**         print(fd, typeof(left|right), @len)
+** @cmp:       A function that compares @left and @right, called like so:
+**             cmp(fd, typeof(left|right))
+** @left:      The first operand.
+** @right:     The second operand
+** @condition: A C expression that will make "cmp(left, right) condition"
+**             evaluate properly
+** @print:     A function that can print @left and @right and takes a file
+**             descriptor as a first argument, called like so:
+**             print(fd, typeof(left|right), @len)
 */
 
-# define ASSERT_OBJ(cmp, left, right, op, print) do { \
+# define ASSERT_OBJ(cmp, left, right, condition, print) do { \
 	typeof(left) _left = (left); \
 	typeof(right) _right = (right); \
-	if (!(cmp(_left, _right)) op) \
+	if (!(cmp(_left, _right)) condition) \
 	{ \
 		dprintf( \
 			2, \
 			"%s@(%s:%d): %s(%s, %s) !%s:\n", \
-			__func__, __FILE__, __LINE__, #cmp, #left, #right, #op); \
+			__func__, __FILE__, __LINE__, #cmp, #left, #right, #condition); \
 		print(2, _left); \
 		dprintf(2, "\n"); \
 		print(2, _right); \
@@ -72,26 +73,27 @@
 
 /*
 ** ASSERT_NOBJ - Assert something about two objects and print them if error
-** @cmp:   A function that compares @left and @right, called like so:
-**         cmp(fd, typeof(left|right), @len)
-** @left:  The first operand.
-** @right: The second operand
-** @len:   A length to limit the @cmp and @print functions
-** @op:    A C expression that will make "cmp(left, right) op" evaluate properly
-** @print: A function that can print @left and @right and takes a file
-**         descriptor as a first argument, called like so:
-**         print(fd, typeof(left|right), @len)
+** @cmp:       A function that compares @left and @right, called like so:
+**             cmp(fd, typeof(left|right), @len)
+** @left:      The first operand.
+** @right:     The second operand
+** @len:       A length to limit the @cmp and @print functions
+** @condition: A C expression that will make "cmp(left, right) condition"
+**             evaluate properly
+** @print:     A function that can print @left and @right and takes a file
+**             descriptor as a first argument, called like so:
+**             print(fd, typeof(left|right), @len)
 */
 
-# define ASSERT_NOBJ(cmp, left, right, len, op, print) do { \
+# define ASSERT_NOBJ(cmp, left, right, len, condition, print) do { \
 	typeof(left) _left = (left); \
 	typeof(right) _right = (right); \
-	if (!(cmp(_left, _right, len)) op) \
+	if (!(cmp(_left, _right, len)) condition) \
 	{ \
 		dprintf( \
 			2, \
 			"%s@(%s:%d): %s(%s, %s) !%s:\n", \
-			__func__, __FILE__, __LINE__, #cmp, #left, #right, #op); \
+			__func__, __FILE__, __LINE__, #cmp, #left, #right, #condition); \
 		print(2, _left, len); \
 		dprintf(2, "\n"); \
 		print(2, _right, len); \
