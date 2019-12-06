@@ -45,14 +45,14 @@
 /*
 ** ASSERT_OBJ - Assert something about two objects and print them if error
 ** @cmp:       A function that compares @left and @right, called like so:
-**             cmp(fd, typeof(left|right))
+**             cmp(fd, @left|right)
 ** @left:      The first operand.
 ** @right:     The second operand
-** @condition: A C expression that will make "cmp(left, right) condition"
+** @condition: A C expression that will make "cmp(@left, @right) @condition"
 **             evaluate properly
 ** @print:     A function that can print @left and @right and takes a file
 **             descriptor as a first argument, called like so:
-**             print(fd, typeof(left|right), @len)
+**             print(fd, @left|@right, @len)
 */
 
 # define ASSERT_OBJ(cmp, left, right, condition, print) do { \
@@ -74,15 +74,15 @@
 /*
 ** ASSERT_NOBJ - Assert something about two objects and print them if error
 ** @cmp:       A function that compares @left and @right, called like so:
-**             cmp(fd, typeof(left|right), @len)
+**             cmp(fd, @left|@right, @len)
 ** @left:      The first operand.
 ** @right:     The second operand
 ** @len:       A length to limit the @cmp and @print functions
-** @condition: A C expression that will make "cmp(left, right) condition"
+** @condition: A C expression that will make "cmp(@left, @right) @condition"
 **             evaluate properly
 ** @print:     A function that can print @left and @right and takes a file
 **             descriptor as a first argument, called like so:
-**             print(fd, typeof(left|right), @len)
+**             print(fd, @left|@right, @len)
 */
 
 # define ASSERT_NOBJ(cmp, left, right, len, condition, print) do { \
