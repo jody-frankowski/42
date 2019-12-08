@@ -38,7 +38,8 @@ endif
 ### CFLAGS
 
 ### LIBRARIES
-DEPENDENCIES = libft libtest
+# libunit first because it depends on libft
+DEPENDENCIES = libunit libft libtest
 # We assume all our dependencies have a include/ that we want to include
 INCLUDES = $(foreach lib,$(DEPENDENCIES),-I lib/$(lib)/include/) -I include/
 LDFLAGS  = $(foreach lib,$(DEPENDENCIES),-L lib/$(lib)/)

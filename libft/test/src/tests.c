@@ -9,8 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "bigint.h"
 #include "libft.h"
 #include "libtest.h"
+#include "libunit.h"
 
 void test_ft_atoi()
 {
@@ -797,8 +799,61 @@ void test_ft_array_push()
 	ft_array_free(array);
 }
 
+void test_bigint_init()
+{
+	t_bigint num;
+
+	bigint_init(num);
+
+	// We cast num->sign because gcc doesn't let us do typeof() on a bitfield
+	ASSERT((unsigned int)num->sign, ==, (unsigned int)BIGINT_POS);
+	ASSERT(num->val[0], ==, (unsigned int)0);
+	ASSERT(num->size, ==, (unsigned int)1);
+
+	bigint_free(num);
+}
+
+void test_bigint_set_si()
+{
+	t_bigint num;
+
+	bigint_init(num);
+
+	bigint_set_si(num, BIGINT_MAX>>1);
+	ASSERT((unsigned int)num->sign, ==, BIGINT_POS);
+	ASSERT(num->size, ==, (unsigned int)1);
+	ASSERT(num->val[0], ==, BIGINT_MAX>>1);
+
+	bigint_set_si(num, LONG_MIN);
+	ASSERT((unsigned int)num->sign, ==, BIGINT_NEG);
+	ASSERT(num->size, ==, (unsigned int)1);
+	ASSERT(num->val[0], ==, (unsigned long)LONG_MIN);
+
+	bigint_set_si(num, -3);
+	ASSERT((unsigned int)num->sign, ==, BIGINT_NEG);
+	ASSERT(num->size, ==, (unsigned int)1);
+	ASSERT(num->val[0], ==, (unsigned long)3);
+
+	bigint_free(num);
+}
+
+void test_bigint_set_ui()
+{
+	t_bigint num;
+
+	bigint_init(num);
+
+	bigint_set_ui(num, BIGINT_MAX);
+	ASSERT((unsigned int)num->sign, ==, BIGINT_POS);
+	ASSERT(num->size, ==, (unsigned int)1);
+	ASSERT(num->val[0], ==, BIGINT_MAX);
+
+	bigint_free(num);
+}
+
 int		main()
 {
+	// Old Framework Tests
 	test_ft_atoi();
 	test_ft_charcasecmp();
 	test_ft_count_words();
@@ -847,4 +902,9 @@ int		main()
 	/* test_ft_gnl(); */
 	/* test_ft_read_all(); */
 	/* test_ft_realloc(); */
+
+	// New Framework Tests
+	RUN_TEST(test_bigint_init);
+	RUN_TEST(test_bigint_set_si);
+	RUN_TEST(test_bigint_set_ui);
 }
