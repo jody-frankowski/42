@@ -14,7 +14,7 @@
 #include <limits.h>
 #include "libft.h"
 
-static int			ft_symbol_in_base(char c, int base)
+static int			symbol_in_base(char c, int base)
 {
 	int value;
 
@@ -34,7 +34,7 @@ static int			ft_symbol_in_base(char c, int base)
 		return (-1);
 }
 
-static const char	*ft_treat_space_sign_base(const char **str, \
+static const char	*treat_space_sign_base(const char **str, \
 											unsigned long *neg, \
 											int *base, \
 											const char **save)
@@ -61,7 +61,7 @@ static const char	*ft_treat_space_sign_base(const char **str, \
 	return (*str);
 }
 
-static int			ft_set_cutoff(unsigned long *cutoff, \
+static int			set_cutoff(unsigned long *cutoff, \
 								unsigned long *cutlim, \
 								int base, \
 								unsigned long neg)
@@ -93,15 +93,15 @@ long				ft_strtol(const char *str, char **endptr, int base)
 	const char		*tab[2];
 
 	vars[4] = 0;
-	tab[1] = ft_treat_space_sign_base(&str, &vars[3], &base, &tab[0]);
-	vars[0] = ft_set_cutoff(&vars[1], &vars[2], base, vars[3]);
-	while (*str && ft_symbol_in_base(*str, base) != -1)
+	tab[1] = treat_space_sign_base(&str, &vars[3], &base, &tab[0]);
+	vars[0] = set_cutoff(&vars[1], &vars[2], base, vars[3]);
+	while (*str && symbol_in_base(*str, base) != -1)
 	{
 		if (!vars[4] && (vars[0] < vars[1] || (vars[0] == vars[1] && \
-			(unsigned long)ft_symbol_in_base(*str, base) <= vars[2])))
+			(unsigned long)symbol_in_base(*str, base) <= vars[2])))
 		{
 			vars[0] *= base;
-			vars[0] += ft_symbol_in_base(*str, base);
+			vars[0] += symbol_in_base(*str, base);
 		}
 		else
 			vars[4] = 1;
