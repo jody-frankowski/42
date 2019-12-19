@@ -79,6 +79,9 @@ static int			set_cutoff(unsigned long *cutoff, \
 ** @endptr: A pointer to the last valid digit
 ** @base: The radix to use
 **
+** The following are the variables the function should have, but can't because
+** of the Norm. They are instead put in the vars and tab arrays, in the same
+** order:
 ** unsigned long	result;
 ** unsigned long	cutoff;
 ** unsigned long	cutlim;
@@ -86,6 +89,10 @@ static int			set_cutoff(unsigned long *cutoff, \
 ** unsigned long	overflow;
 ** const char		*save;
 ** const char		*begin;
+**
+** Return: The result of the conversion. Or 0 if no conversion could be
+** performed. Or LONG_MIN if there is an underflow, or LONG_MAX if there is an
+** overflow, and errno is set to FT_ERANGE.
 */
 
 long				ft_strtol(const char *str, char **endptr, int base)
