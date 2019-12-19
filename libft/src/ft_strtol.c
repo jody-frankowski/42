@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include <limits.h>
+#include "ft_errno.h"
 #include "libft.h"
 
 static int			symbol_in_base(char c, int base)
@@ -107,7 +108,7 @@ long				ft_strtol(const char *str, char **endptr, int base)
 			vars[4] = 1;
 		str++;
 	}
-	if (vars[4])
+	if (vars[4] && (g_errno = FT_ERANGE))
 		vars[0] = vars[3] ? LONG_MIN : LONG_MAX;
 	else
 		vars[0] = vars[3] ? -vars[0] : vars[0];
