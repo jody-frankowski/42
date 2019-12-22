@@ -30,7 +30,7 @@ typedef struct	s_bigint {
 	t_bigint_val	*val;
 }				t_bigint[1];
 
-void			bigint_free(t_bigint num);
+int				bigint_free(t_bigint num);
 int				bigint_init(t_bigint num);
 void			bigint_fix_size(t_bigint num);
 int				bigint_alloc_one_more(t_bigint num);
