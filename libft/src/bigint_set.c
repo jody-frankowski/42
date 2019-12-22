@@ -42,7 +42,7 @@ int		bigint_set(t_bigint res, t_bigint num)
 
 void	bigint_set_si(t_bigint res, signed long si)
 {
-	res->val[0] = si < 0 ? -(unsigned long)si : si;
+	res->val[0] = si < 0 ? -(unsigned long)si : (unsigned long)si;
 	res->sign = si >= 0 ? BIGINT_POS : BIGINT_NEG;
 	res->size = 1;
 }

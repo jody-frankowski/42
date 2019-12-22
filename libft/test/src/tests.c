@@ -820,21 +820,45 @@ void test_bigint_set_si()
 	bigint_init(num);
 
 	bigint_set_si(num, BIGINT_MAX>>1);
-	ASSERT((unsigned int)num->sign, ==, BIGINT_POS);
+	ASSERT((unsigned int)num->sign, ==, (unsigned int)BIGINT_POS);
 	ASSERT(num->size, ==, (unsigned int)1);
 	ASSERT(num->val[0], ==, BIGINT_MAX>>1);
 
 	bigint_set_si(num, LONG_MIN);
-	ASSERT((unsigned int)num->sign, ==, BIGINT_NEG);
+	ASSERT((unsigned int)num->sign, ==, (unsigned int)BIGINT_NEG);
 	ASSERT(num->size, ==, (unsigned int)1);
 	ASSERT(num->val[0], ==, (unsigned long)LONG_MIN);
 
 	bigint_set_si(num, -3);
-	ASSERT((unsigned int)num->sign, ==, BIGINT_NEG);
+	ASSERT((unsigned int)num->sign, ==, (unsigned int)BIGINT_NEG);
 	ASSERT(num->size, ==, (unsigned int)1);
 	ASSERT(num->val[0], ==, (unsigned long)3);
 
 	bigint_free(num);
+}
+
+void test_bigint_set()
+{
+	t_bigint a;
+	t_bigint b;
+
+	bigint_init(a);
+	bigint_init(b);
+
+	bigint_set_si(b, INT_MAX);
+	bigint_set(a, b);
+	ASSERT((unsigned int)a->sign, ==, (unsigned int)b->sign);
+	ASSERT(a->size, ==, b->size);
+	ASSERT(a->val[0], ==, b->val[0]);
+
+	bigint_set_si(b, INT_MIN);
+	bigint_set(a, b);
+	ASSERT((unsigned int)a->sign, ==, (unsigned int)b->sign);
+	ASSERT(a->size, ==, b->size);
+	ASSERT(a->val[0], ==, b->val[0]);
+
+	bigint_free(a);
+	bigint_free(b);
 }
 
 void test_bigint_set_ui()
@@ -844,11 +868,280 @@ void test_bigint_set_ui()
 	bigint_init(num);
 
 	bigint_set_ui(num, BIGINT_MAX);
-	ASSERT((unsigned int)num->sign, ==, BIGINT_POS);
+	ASSERT((unsigned int)num->sign, ==, (unsigned int)BIGINT_POS);
 	ASSERT(num->size, ==, (unsigned int)1);
 	ASSERT(num->val[0], ==, BIGINT_MAX);
 
 	bigint_free(num);
+}
+
+void test_bigint_cmp()
+{
+	t_bigint a;
+	t_bigint b;
+
+	bigint_init(a);
+	bigint_init(b);
+
+	bigint_set_ui(a, BIGINT_MAX);
+	bigint_add_ui(a, a, 1);
+	bigint_set_ui(b, 1);
+	// op1 > op2
+	ASSERT(bigint_cmp(a, b), ==, 1);
+	// op1 < op2
+	ASSERT(bigint_cmp(b, a), ==, -1);
+	bigint_set(b, a);
+	b->sign = BIGINT_NEG;
+	// op1 > op2
+	ASSERT(bigint_cmp(a, b), ==, 1);
+	// op1 < op2
+	ASSERT(bigint_cmp(b, a), ==, -1);
+
+	// 1 == 1
+	bigint_set_ui(a, 1);
+	bigint_set_ui(b, 1);
+	ASSERT(bigint_cmp(b, a), ==, 0);
+	ASSERT(bigint_cmp(a, b), ==, 0);
+
+	// 0 == 0
+	bigint_set_ui(a, 0);
+	bigint_set_ui(b, 0);
+	ASSERT(bigint_cmp(a, b), ==, 0);
+
+	bigint_free(a);
+	bigint_free(b);
+}
+
+void test_bigint_cmpabs()
+{
+	t_bigint a;
+	t_bigint b;
+
+	bigint_init(a);
+	bigint_init(b);
+
+	bigint_set_ui(a, BIGINT_MAX);
+	bigint_add_ui(a, a, 1);
+	bigint_set_ui(b, 1);
+	// op1 > op2
+	ASSERT(bigint_cmpabs(a, b), ==, 1);
+	// op1 < op2
+	ASSERT(bigint_cmpabs(b, a), ==, -1);
+	bigint_set(b, a);
+	b->sign = BIGINT_NEG;
+	// op1 == -op1
+	ASSERT(bigint_cmpabs(a, b), ==, 0);
+	// -op1 == op1
+	ASSERT(bigint_cmpabs(b, a), ==, 0);
+
+	// 1 == 1
+	bigint_set_ui(a, 1);
+	bigint_set_ui(b, 1);
+	ASSERT(bigint_cmpabs(b, a), ==, 0);
+	ASSERT(bigint_cmpabs(a, b), ==, 0);
+
+	// 0 == 0
+	bigint_set_ui(a, 0);
+	bigint_set_ui(b, 0);
+	ASSERT(bigint_cmpabs(a, b), ==, 0);
+
+	bigint_free(a);
+	bigint_free(b);
+}
+
+void test_bigint_cmp_si()
+{
+	t_bigint a;
+
+	bigint_init(a);
+
+	bigint_set_ui(a, INT_MAX - 1);
+	// op1 > op2
+	ASSERT(bigint_cmp_si(a, INT_MAX - 2), ==, 1);
+	// op1 < op2
+	ASSERT(bigint_cmp_si(a, INT_MAX), ==, -1);
+	// op1 == op2
+	ASSERT(bigint_cmp_si(a, INT_MAX - 1), ==, 0);
+
+	// 1 == 1
+	bigint_set_ui(a, 1);
+	ASSERT(bigint_cmp_si(a, 1), ==, 0);
+
+	// 0 == 0
+	bigint_set_ui(a, 0);
+	ASSERT(bigint_cmp_si(a, 0), ==, 0);
+
+	bigint_free(a);
+}
+
+void test_bigint_add()
+{
+	t_bigint a;
+	t_bigint b;
+	t_bigint res;
+
+	bigint_init(a);
+	bigint_init(b);
+	bigint_init(res);
+
+	// a == 2..., b == 1...
+	bigint_set_ui(b, BIGINT_MAX);
+	bigint_add_ui(b, b, 1);
+	bigint_set(a, b);
+	a->val[1] = 2;
+
+	// arg1 > arg2: arg1 + arg2
+	a->sign = BIGINT_POS;
+	b->sign = BIGINT_POS;
+	bigint_add(res, a, b);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 > arg2: -arg1 + arg2
+	a->sign = BIGINT_NEG;
+	b->sign = BIGINT_POS;
+	bigint_add(res, a, b);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+	// arg1 > arg2: arg1 + -arg2
+	a->sign = BIGINT_POS;
+	b->sign = BIGINT_NEG;
+	bigint_add(res, a, b);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 > arg2: -arg1 + -arg2
+	a->sign = BIGINT_NEG;
+	b->sign = BIGINT_NEG;
+	bigint_add(res, a, b);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+
+	// arg1 < arg2: arg1 + arg2
+	b->sign = BIGINT_POS;
+	a->sign = BIGINT_POS;
+	bigint_add(res, b, a);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 < arg2: -arg1 + arg2
+	b->sign = BIGINT_NEG;
+	a->sign = BIGINT_POS;
+	bigint_add(res, b, a);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 < arg2: arg1 + -arg2
+	b->sign = BIGINT_POS;
+	a->sign = BIGINT_NEG;
+	bigint_add(res, b, a);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+	// arg1 < arg2: -arg1 + -arg2
+	b->sign = BIGINT_NEG;
+	a->sign = BIGINT_NEG;
+	bigint_add(res, b, a);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+
+	bigint_set(b, a);
+	// arg1 == arg2: arg1 + -arg2
+	a->sign = BIGINT_POS;
+	b->sign = BIGINT_NEG;
+	bigint_add(res, a, b);
+	ASSERT(bigint_cmp_si(res, 0), ==, 0);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 == arg2: -arg1 + arg2
+	a->sign = BIGINT_NEG;
+	b->sign = BIGINT_POS;
+	bigint_add(res, a, b);
+	ASSERT(bigint_cmp_si(res, 0), ==, 0);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+
+	bigint_free(a);
+	bigint_free(b);
+	bigint_free(res);
+}
+
+void test_bigint_sub()
+{
+	t_bigint a;
+	t_bigint b;
+	t_bigint res;
+
+	bigint_init(a);
+	bigint_init(b);
+	bigint_init(res);
+
+	// a == 2..., b == 1...
+	bigint_set_ui(b, BIGINT_MAX);
+	bigint_add_ui(b, b, 1);
+	bigint_set(a, b);
+	a->val[1] = 2;
+
+	// arg1 > arg2: arg1 - arg2
+	a->sign = BIGINT_POS;
+	b->sign = BIGINT_POS;
+	bigint_sub(res, a, b);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 > arg2: -arg1 - arg2
+	a->sign = BIGINT_NEG;
+	b->sign = BIGINT_POS;
+	bigint_sub(res, a, b);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+	// arg1 > arg2: arg1 - -arg2
+	a->sign = BIGINT_POS;
+	b->sign = BIGINT_NEG;
+	bigint_sub(res, a, b);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 > arg2: -arg1 - -arg2
+	a->sign = BIGINT_NEG;
+	b->sign = BIGINT_NEG;
+	bigint_sub(res, a, b);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+
+	// arg1 < arg2: arg1 - arg2
+	b->sign = BIGINT_POS;
+	a->sign = BIGINT_POS;
+	bigint_sub(res, b, a);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+	// arg1 < arg2: -arg1 - arg2
+	b->sign = BIGINT_NEG;
+	a->sign = BIGINT_POS;
+	bigint_sub(res, b, a);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_NEG);
+	// arg1 < arg2: arg1 - -arg2
+	b->sign = BIGINT_POS;
+	a->sign = BIGINT_NEG;
+	bigint_sub(res, b, a);
+	ASSERT(res->val[1], ==, 3UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 < arg2: -arg1 - -arg2
+	b->sign = BIGINT_NEG;
+	a->sign = BIGINT_NEG;
+	bigint_sub(res, b, a);
+	ASSERT(res->val[1], ==, 1UL);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+
+	bigint_set(b, a);
+	// arg1 == arg2: arg1 - arg2
+	a->sign = BIGINT_POS;
+	b->sign = BIGINT_POS;
+	bigint_sub(res, a, b);
+	ASSERT(bigint_cmp_si(res, 0), ==, 0);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+	// arg1 == arg2: -arg1 - -arg2
+	a->sign = BIGINT_NEG;
+	b->sign = BIGINT_NEG;
+	bigint_sub(res, a, b);
+	ASSERT(bigint_cmp_si(res, 0), ==, 0);
+	ASSERT((int)res->sign, ==, BIGINT_POS);
+
+	bigint_free(a);
+	bigint_free(b);
+	bigint_free(res);
 }
 
 int		main()
@@ -905,6 +1198,16 @@ int		main()
 
 	// New Framework Tests
 	RUN_TEST(test_bigint_init);
+	/* RUN_TEST(test_bigint_fix_size); */
+
+	RUN_TEST(test_bigint_set);
 	RUN_TEST(test_bigint_set_si);
 	RUN_TEST(test_bigint_set_ui);
+
+	RUN_TEST(test_bigint_cmp);
+	RUN_TEST(test_bigint_cmpabs);
+	RUN_TEST(test_bigint_cmp_si);
+
+	RUN_TEST(test_bigint_add);
+	RUN_TEST(test_bigint_sub);
 }
