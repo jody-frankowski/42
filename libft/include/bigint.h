@@ -59,5 +59,6 @@ int				bigint_sub_ui(t_bigint res,
 								unsigned long op2_bigint_ui);
 
 int				bigint_mul(t_bigint res, t_bigint op1, t_bigint op2);
+int				bigint_mul_si(t_bigint res, t_bigint op1, signed long op2);
 
 #endif

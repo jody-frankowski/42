@@ -85,3 +85,26 @@ int	bigint_mul(t_bigint res, t_bigint op1, t_bigint op2)
 	bigint_free(res_tmp);
 	return (1);
 }
+
+/*
+** bigint_mul_si() - Multiply a bigint by a signed integer
+** @res: The result of the multiplication
+** @op1: The bigint to multiply
+** @op2: The signed integer to multiply with
+**
+** @res can point to the same bigint as @op1.
+**
+** Return: 1 on success. 0 on error.
+*/
+
+int	bigint_mul_si(t_bigint res, t_bigint op1, signed long op2)
+{
+	t_bigint	op2_bigint;
+	int			error;
+
+	bigint_init(op2_bigint);
+	bigint_set_si(op2_bigint, op2);
+	error = bigint_mul(res, op1, op2_bigint);
+	bigint_free(op2_bigint);
+	return (error);
+}
