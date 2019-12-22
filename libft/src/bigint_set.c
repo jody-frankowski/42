@@ -59,3 +59,17 @@ void	bigint_set_ui(t_bigint res, unsigned long ui)
 	res->sign = BIGINT_POS;
 	res->size = 1;
 }
+
+/*
+** bigint_abs() - Set a bigint to the absolute value of another
+** @rop: The bigint to set
+** @op:  The bigint whose absolute value will be taken
+*/
+
+int		bigint_abs(t_bigint rop, t_bigint op)
+{
+	if (!(bigint_set(rop, op)))
+		return (0);
+	rop->sign = BIGINT_POS;
+	return (1);
+}

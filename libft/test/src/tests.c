@@ -875,6 +875,28 @@ void test_bigint_set_ui()
 	bigint_free(num);
 }
 
+void test_bigint_abs()
+{
+	t_bigint abs;
+	t_bigint num;
+
+	bigint_init(abs);
+	bigint_init(num);
+
+	bigint_set_ui(num, BIGINT_MAX);
+	bigint_abs(abs, num);
+	ASSERT(abs->val[0], ==, num->val[0]);
+	ASSERT((int)abs->sign, ==, (int)BIGINT_POS);
+
+	bigint_abs(abs, num);
+	num->sign = BIGINT_NEG;
+	ASSERT(abs->val[0], ==, num->val[0]);
+	ASSERT((int)abs->sign, ==, (int)BIGINT_POS);
+
+	bigint_free(abs);
+	bigint_free(num);
+}
+
 void test_bigint_cmp()
 {
 	t_bigint a;
@@ -1203,6 +1225,7 @@ int		main()
 	RUN_TEST(test_bigint_set);
 	RUN_TEST(test_bigint_set_si);
 	RUN_TEST(test_bigint_set_ui);
+	RUN_TEST(test_bigint_abs);
 
 	RUN_TEST(test_bigint_cmp);
 	RUN_TEST(test_bigint_cmpabs);

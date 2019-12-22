@@ -38,6 +38,7 @@ int				bigint_alloc_one_more(t_bigint num);
 int				bigint_set(t_bigint res, t_bigint num);
 void			bigint_set_si(t_bigint res, signed long si);
 void			bigint_set_ui(t_bigint res, unsigned long ui);
+int				bigint_abs(t_bigint rop, t_bigint op);
 
 int				bigint_cmp(t_bigint op1, t_bigint op2);
 int				bigint_cmpabs(t_bigint op1, t_bigint op2);
