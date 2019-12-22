@@ -22,7 +22,7 @@
 ** Return: 1 on success. 0 on error.
 */
 
-int	bigint_add_ui(t_bigint res, t_bigint op1, t_bigint_val op2)
+int	bigint_add_ui(t_bigint res, t_bigint op1, unsigned long op2)
 {
 	t_bigint	op2_bigint;
 	int			error;
@@ -43,7 +43,7 @@ int	bigint_add_ui(t_bigint res, t_bigint op1, t_bigint_val op2)
 ** Return: 1 on success. 0 on error.
 */
 
-int	bigint_sub_ui(t_bigint res, t_bigint op1, t_bigint_val op2)
+int	bigint_sub_ui(t_bigint res, t_bigint op1, unsigned long op2)
 {
 	t_bigint	op2_bigint;
 	int			error;

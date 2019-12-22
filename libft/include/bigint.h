@@ -53,9 +53,9 @@ int				bigint_sub_neg_pos(t_bigint res, t_bigint op1, t_bigint op2);
 
 int				bigint_add_ui(t_bigint res,
 								t_bigint op1,
-								t_bigint_val op2_bigint_ui);
+								unsigned long op2_bigint_ui);
 int				bigint_sub_ui(t_bigint res,
 								t_bigint op1,
-								t_bigint_val op2_bigint_ui);
+								unsigned long op2_bigint_ui);
 
 #endif
