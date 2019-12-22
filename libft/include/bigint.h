@@ -42,7 +42,7 @@ int				bigint_abs(t_bigint rop, t_bigint op);
 
 int				bigint_cmp(t_bigint op1, t_bigint op2);
 int				bigint_cmpabs(t_bigint op1, t_bigint op2);
-int				bigint_cmp_si(t_bigint op1, signed int op2);
+int				bigint_cmp_si(t_bigint op1, signed long op2);
 
 int				bigint_add_abs(t_bigint res, t_bigint op1, t_bigint op2);
 int				bigint_sub_abs(t_bigint res, t_bigint op1, t_bigint op2);

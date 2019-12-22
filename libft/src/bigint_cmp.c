@@ -76,7 +76,7 @@ int	bigint_cmpabs(t_bigint op1, t_bigint op2)
 ** Return: 1 if op1 > op2. 0 if op1 == op2. -1 if op1 < op2.
 */
 
-int	bigint_cmp_si(t_bigint op1, signed int op2)
+int	bigint_cmp_si(t_bigint op1, signed long op2)
 {
 	t_bigint	op2_bigint;
 	int			cmp;
