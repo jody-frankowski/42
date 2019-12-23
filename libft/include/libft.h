@@ -74,6 +74,7 @@ int				ft_issorted(void *base, size_t nel, size_t width,
 int				ft_isspace(int c);
 int				ft_isupper(int c);
 char			*ft_itoa(int n);
+char			*ft_lltostr(long long num, char *base_charset);
 void			ft_lstadd(t_list **alst, t_list *new);
 void			ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));

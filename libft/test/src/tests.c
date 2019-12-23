@@ -1397,6 +1397,39 @@ void test_bigint_num_bits()
 	bigint_free(a);
 }
 
+void test_ft_lltostr()
+{
+	char *result;
+
+	result = ft_lltostr(LLONG_MIN, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "-8000000000000000", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(-1, "0123456789");
+	ASSERT_OBJ(strcmp, result, "-1", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(-1, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "-1", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(0, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "0", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(1, "0123456789");
+	ASSERT_OBJ(strcmp, result, "1", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(10, "0123456789");
+	ASSERT_OBJ(strcmp, result, "10", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(15, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "F", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(16, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "10", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_lltostr(LLONG_MAX, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "7FFFFFFFFFFFFFFF", == 0, ft_putstr_fd);
+	free(result);
+}
+
 int		main()
 {
 	// Old Framework Tests
@@ -1473,4 +1506,6 @@ int		main()
 	/* RUN_TEST(test_bigint_set_bit); */
 	/* RUN_TEST(test_bigint_shift_left); */
 	/* RUN_TEST(test_bigint_num_bits); */
+
+	RUN_TEST(test_ft_lltostr);
 }
