@@ -54,6 +54,7 @@ int	bigint_set_count_and_num(
 ** @op2: The second bigint to multiply with
 **
 ** @res can point to the same bigint as @op1 or @op2 or both.
+** TODO free() on add/sub/set error. Not done because of the The Norm.
 **
 ** Return: 1 on success. 0 on error.
 */
