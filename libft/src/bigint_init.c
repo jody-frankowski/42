@@ -88,3 +88,27 @@ int		bigint_alloc_one_more(t_bigint num)
 	num->size += 1;
 	return (1);
 }
+
+/*
+** bigint_realloc() - Reallocate a bigint
+** @num: The bigint to reallocate
+** @new_size: The new size
+**
+** TODO Broken: Invalid write of size 1
+**
+** Return: 1 on success. 0 on error.
+*/
+
+int		bigint_realloc(t_bigint num, size_t new_size)
+{
+	if (!(num->val = ft_realloc(
+			num->val,
+			sizeof(*num->val) * num->size,
+			sizeof(*num->val) * new_size)))
+		return (0);
+	ft_memset(num->val + (sizeof(*num->val) * num->size),
+				0,
+				sizeof(*num->val) * (new_size - num->size));
+	num->size = new_size;
+	return (1);
+}

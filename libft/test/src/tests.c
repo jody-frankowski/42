@@ -1238,6 +1238,88 @@ void test_bigint_mul()
 	bigint_free(res);
 }
 
+void test_bigint_get_bit()
+{
+	t_bigint a;
+
+	bigint_init(a);
+
+	// overflow val[0] to val[1]
+	bigint_set_ui(a, BIGINT_MAX);
+	bigint_shift_left(a, a);
+
+	ASSERT(bigint_get_bit(a, 0), ==, 0);
+	ASSERT(bigint_get_bit(a, 1), ==, 1);
+	ASSERT(bigint_get_bit(a, BIGINT_VAL_NBIT), ==, 1);
+	ASSERT(bigint_get_bit(a, BIGINT_VAL_NBIT + 1), ==, 0);
+
+	bigint_free(a);
+}
+
+void test_bigint_set_bit()
+{
+	t_bigint a;
+
+	bigint_init(a);
+
+	bigint_set_ui(a, 0);
+
+	bigint_set_bit(a, 0, 1);
+	ASSERT(bigint_get_bit(a, 0), ==, 1);
+	bigint_set_bit(a, BIGINT_VAL_NBIT - 1, 1);
+	ASSERT(bigint_get_bit(a, BIGINT_VAL_NBIT - 1), ==, 1);
+
+	bigint_set_ui(a, 0);
+	bigint_realloc(a, 2);
+	bigint_set_bit(a, BIGINT_VAL_NBIT, 1);
+	ASSERT(bigint_get_bit(a, BIGINT_VAL_NBIT), ==, 1);
+
+	bigint_free(a);
+}
+
+void test_bigint_shift_left()
+{
+	t_bigint a;
+
+	bigint_init(a);
+
+	bigint_set_ui(a, BIGINT_MAX);
+	bigint_shift_left(a, a);
+	ASSERT(a->size, ==, 2U);
+	ASSERT(a->val[0], ==, BIGINT_MAX << 1);
+	ASSERT(a->val[1], ==, 0b1U);
+	bigint_shift_left(a, a);
+	ASSERT(a->val[0], ==, BIGINT_MAX << 2);
+	ASSERT(a->val[1], ==, 0b11U);
+
+	// 0 << 1
+	bigint_set_ui(a, 0);
+	bigint_shift_left(a, a);
+	ASSERT(a->size, ==, 1U);
+	ASSERT(bigint_cmp_si(a, 0), ==, 0);
+
+	bigint_free(a);
+}
+
+void test_bigint_num_bits()
+{
+	t_bigint a;
+
+	bigint_init(a);
+
+	ASSERT(bigint_num_bits(a), ==, 0U);
+	bigint_set_si(a, -1);
+	ASSERT(bigint_num_bits(a), ==, 1U);
+	bigint_set_ui(a, BIGINT_MAX);
+	ASSERT(bigint_num_bits(a), ==, BIGINT_VAL_NBIT);
+	bigint_shift_left(a, a);
+	ASSERT(bigint_num_bits(a), ==, BIGINT_VAL_NBIT + 1);
+	bigint_shift_left(a, a);
+	ASSERT(bigint_num_bits(a), ==, BIGINT_VAL_NBIT + 2);
+
+	bigint_free(a);
+}
+
 int		main()
 {
 	// Old Framework Tests
@@ -1307,4 +1389,9 @@ int		main()
 	RUN_TEST(test_bigint_sub);
 
 	RUN_TEST(test_bigint_mul);
+
+	RUN_TEST(test_bigint_get_bit);
+	RUN_TEST(test_bigint_set_bit);
+	RUN_TEST(test_bigint_shift_left);
+	RUN_TEST(test_bigint_num_bits);
 }
