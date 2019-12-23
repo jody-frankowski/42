@@ -115,10 +115,10 @@ endif
 PHONY += memcheck
 memcheck: tests
 ifeq ($(NAME),test)
-	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes \
+	valgrind --quiet --show-leak-kinds=all --leak-check=full --track-origins=yes \
 	./test
 else
-	valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes \
+	valgrind --quiet --show-leak-kinds=all --leak-check=full --track-origins=yes \
 	test/test
 endif
 
