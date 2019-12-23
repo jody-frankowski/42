@@ -1469,8 +1469,8 @@ int		main()
 
 	/* RUN_TEST(test_bigint_div); */
 
-	RUN_TEST(test_bigint_get_bit);
-	RUN_TEST(test_bigint_set_bit);
-	RUN_TEST(test_bigint_shift_left);
-	RUN_TEST(test_bigint_num_bits);
+	/* RUN_TEST(test_bigint_get_bit); */
+	/* RUN_TEST(test_bigint_set_bit); */
+	/* RUN_TEST(test_bigint_shift_left); */
+	/* RUN_TEST(test_bigint_num_bits); */
 }
