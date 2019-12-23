@@ -1238,6 +1238,83 @@ void test_bigint_mul()
 	bigint_free(res);
 }
 
+void test_bigint_div()
+{
+	t_bigint a;
+	t_bigint b;
+	t_bigint q;
+	t_bigint r;
+
+	bigint_init(a);
+	bigint_init(b);
+	bigint_init(q);
+	bigint_init(r);
+
+	// a == 1..., b == 2
+	bigint_set_ui(a, BIGINT_MAX);
+	bigint_add_ui(a, a, 1);
+	bigint_set_ui(b, 2);
+
+	// arg1 / arg2
+	a->sign = BIGINT_POS;
+	b->sign = BIGINT_POS;
+	bigint_div(q, r, a, b);
+	ASSERT(q->val[0], ==, BIGINT_MAX/2);
+	ASSERT(q->size, ==, 1U);
+	ASSERT(bigint_cmp_si(q, BIGINT_MAX/2), ==, 0);
+	ASSERT((int)q->sign, ==, BIGINT_POS);
+	/* bigint_div(res, b, a); */
+	/* ASSERT(res->val[1], ==, 2UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_POS); */
+	/* // -arg1 x arg2 */
+	/* a->sign = BIGINT_NEG; */
+	/* b->sign = BIGINT_POS; */
+	/* bigint_div(res, a, b); */
+	/* ASSERT(res->val[1], ==, 2UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_NEG); */
+	/* bigint_div(res, b, a); */
+	/* ASSERT(res->val[1], ==, 2UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_NEG); */
+	/* // arg1 x -arg2 */
+	/* a->sign = BIGINT_POS; */
+	/* b->sign = BIGINT_NEG; */
+	/* bigint_div(res, a, b); */
+	/* ASSERT(res->val[1], ==, 2UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_NEG); */
+	/* bigint_div(res, b, a); */
+	/* ASSERT(res->val[1], ==, 2UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_NEG); */
+	/* // -arg1 x -arg2 */
+	/* a->sign = BIGINT_NEG; */
+	/* b->sign = BIGINT_NEG; */
+	/* bigint_div(res, a, b); */
+	/* ASSERT(res->val[1], ==, 2UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_POS); */
+	/* bigint_div(res, b, a); */
+	/* ASSERT(res->val[1], ==, 2UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_POS); */
+
+	/* a->sign = BIGINT_POS; */
+	/* bigint_set_ui(b, 0); */
+	/* // arg1 x 0 */
+	/* bigint_div(res, a, b); */
+	/* ASSERT(bigint_cmp_si(res, 0), ==, 0); */
+	/* // 0 x arg1 */
+	/* bigint_div(res, b, a); */
+	/* ASSERT(bigint_cmp_si(res, 0), ==, 0); */
+
+	/* // res = res x res */
+	/* bigint_set_ui(res, 4); */
+	/* bigint_div(res, res, res); */
+	/* ASSERT(res->val[0], ==, 16UL); */
+	/* ASSERT((int)res->sign, ==, BIGINT_POS); */
+
+	bigint_free(a);
+	bigint_free(b);
+	bigint_free(q);
+	bigint_free(r);
+}
+
 void test_bigint_get_bit()
 {
 	t_bigint a;
@@ -1389,6 +1466,8 @@ int		main()
 	RUN_TEST(test_bigint_sub);
 
 	RUN_TEST(test_bigint_mul);
+
+	/* RUN_TEST(test_bigint_div); */
 
 	RUN_TEST(test_bigint_get_bit);
 	RUN_TEST(test_bigint_set_bit);

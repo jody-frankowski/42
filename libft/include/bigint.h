@@ -64,9 +64,11 @@ int				bigint_sub_ui(t_bigint res,
 int				bigint_mul(t_bigint res, t_bigint op1, t_bigint op2);
 int				bigint_mul_si(t_bigint res, t_bigint op1, signed long op2);
 
+int				bigint_div(t_bigint q, t_bigint r, t_bigint op1, t_bigint op2);
 
 int				bigint_get_bit(t_bigint num, size_t n);
 void			bigint_set_bit(t_bigint num, size_t n, unsigned char val);
 int				bigint_shift_left(t_bigint res, t_bigint op1);
 size_t			bigint_num_bits(t_bigint num);
+
 #endif
