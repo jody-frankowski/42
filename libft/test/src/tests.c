@@ -1430,6 +1430,30 @@ void test_ft_lltostr()
 	free(result);
 }
 
+void test_ft_ulltostr()
+{
+	char *result;
+
+	result = ft_ulltostr(0, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "0", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_ulltostr(1, "0123456789");
+	ASSERT_OBJ(strcmp, result, "1", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_ulltostr(10, "0123456789");
+	ASSERT_OBJ(strcmp, result, "10", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_ulltostr(15, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "F", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_ulltostr(16, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "10", == 0, ft_putstr_fd);
+	free(result);
+	result = ft_ulltostr(ULLONG_MAX, "0123456789ABCDEF");
+	ASSERT_OBJ(strcmp, result, "FFFFFFFFFFFFFFFF", == 0, ft_putstr_fd);
+	free(result);
+}
+
 int		main()
 {
 	// Old Framework Tests
@@ -1508,4 +1532,5 @@ int		main()
 	/* RUN_TEST(test_bigint_num_bits); */
 
 	RUN_TEST(test_ft_lltostr);
+	RUN_TEST(test_ft_ulltostr);
 }

@@ -29,6 +29,21 @@ static int			ft_num_digits_base(long long num, int base)
 	return (num_digits);
 }
 
+static int			ft_num_digits_base_u(unsigned long long num, int base)
+{
+	int num_digits;
+
+	if (num == 0)
+		return (1);
+	num_digits = 0;
+	while (num)
+	{
+		num /= base;
+		num_digits++;
+	}
+	return (num_digits);
+}
+
 static long long	calc_divisor(int num_digits, int base)
 {
 	long long	divisor;
@@ -54,7 +69,6 @@ static long long	calc_divisor(int num_digits, int base)
 */
 
 char				*ft_lltostr(long long num, char *base_charset)
-
 {
 	int			base;
 	char		*converted;
@@ -81,4 +95,40 @@ char				*ft_lltostr(long long num, char *base_charset)
 	converted[i++] = base_charset[(num % base) * (num < 0 ? -1 : 1)];
 	converted[i++] = '\0';
 	return (converted - (num < 0 ? 1 : 0));
+}
+
+/*
+** ft_ulltostr() - Convert an unsigned long long to a string in a certain base
+** @num:          The unsigned long long to convert
+** @base_charset: The characters to use in the conversion. This also
+**                determines the base.
+**
+** Return: A pointer to the resultant string on success, or NULL on error.
+*/
+
+char				*ft_ulltostr(unsigned long long num, char *base_charset)
+{
+	int					base;
+	char				*converted;
+	unsigned long long	divisor;
+	int					i;
+	int					num_digits;
+
+	base = ft_strlen(base_charset);
+	num_digits = ft_num_digits_base_u(num, base);
+	i = 0;
+	divisor = 1;
+	while (i++ < num_digits - 1)
+		divisor *= base;
+	if (!(converted = malloc(num_digits + 1)))
+		return (NULL);
+	i = 0;
+	while (i < num_digits - 1)
+	{
+		converted[i++] = base_charset[(num / divisor) % base];
+		divisor /= base;
+	}
+	converted[i++] = base_charset[num % base];
+	converted[i++] = '\0';
+	return (converted);
 }

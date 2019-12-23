@@ -164,5 +164,6 @@ int				ft_tab_push_ptr(void **tab,
 int				ft_tolower(int c);
 int				ft_toupper(int c);
 int				ft_read_up_to(int fd, char *buff, int to_read, int *total);
+char			*ft_ulltostr(unsigned long long num, char *base_charset);
 
 #endif
