@@ -34,3 +34,51 @@ size_t	ft_num_digits(int n)
 	}
 	return (num_digits);
 }
+
+/*
+** ft_num_digits_ll - Counts the number of digits in a specific base in a
+**                    long long
+** @num:  The integer in which to count the number of digits
+** @base: The base to consider
+**
+** Return: The number of digits
+*/
+
+size_t	ft_num_digits_ll(long long num, int base)
+{
+	size_t num_digits;
+
+	if (num == 0)
+		return (1);
+	num_digits = 0;
+	while (num)
+	{
+		num /= base;
+		num_digits++;
+	}
+	return (num_digits);
+}
+
+/*
+** ft_num_digits_ull - Counts the number of digits in a specific base in a
+**                     unsigned long long
+** @num:  The integer in which to count the number of digits
+** @base: The base to consider
+**
+** Return: The number of digits
+*/
+
+size_t	ft_num_digits_ull(unsigned long long num, int base)
+{
+	size_t num_digits;
+
+	if (num == 0)
+		return (1);
+	num_digits = 0;
+	while (num)
+	{
+		num /= base;
+		num_digits++;
+	}
+	return (num_digits);
+}

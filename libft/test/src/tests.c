@@ -1454,6 +1454,33 @@ void test_ft_ulltostr()
 	free(result);
 }
 
+void test_ft_num_digits_ll()
+{
+	ASSERT(ft_num_digits_ll(LLONG_MIN, 10), ==, 19U);
+	ASSERT(ft_num_digits_ll(LLONG_MIN, 16), ==, 16U);
+	ASSERT(ft_num_digits_ll(-10, 10), ==, 2U);
+	ASSERT(ft_num_digits_ll(-16, 16), ==, 2U);
+	ASSERT(ft_num_digits_ll(-1, 10), ==, 1U);
+	ASSERT(ft_num_digits_ll(0, 10), ==, 1U);
+	ASSERT(ft_num_digits_ll(1, 10), ==, 1U);
+	ASSERT(ft_num_digits_ll(10, 10), ==, 2U);
+	ASSERT(ft_num_digits_ll(16, 16), ==, 2U);
+	ASSERT(ft_num_digits_ll(LLONG_MAX, 10), ==, 19U);
+	ASSERT(ft_num_digits_ll(LLONG_MAX, 16), ==, 16U);
+}
+
+void test_ft_num_digits_ull()
+{
+	ASSERT(ft_num_digits_ull(0, 10), ==, 1U);
+	ASSERT(ft_num_digits_ull(1, 10), ==, 1U);
+	ASSERT(ft_num_digits_ull(10, 10), ==, 2U);
+	ASSERT(ft_num_digits_ull(16, 16), ==, 2U);
+	ASSERT(ft_num_digits_ull(LLONG_MAX, 10), ==, 19U);
+	ASSERT(ft_num_digits_ull(LLONG_MAX, 16), ==, 16U);
+	ASSERT(ft_num_digits_ull(ULLONG_MAX, 10), ==, 20U);
+	ASSERT(ft_num_digits_ull(ULLONG_MAX, 16), ==, 16U);
+}
+
 int		main()
 {
 	// Old Framework Tests
@@ -1533,4 +1560,7 @@ int		main()
 
 	RUN_TEST(test_ft_lltostr);
 	RUN_TEST(test_ft_ulltostr);
+
+	RUN_TEST(test_ft_num_digits_ll);
+	RUN_TEST(test_ft_num_digits_ull);
 }

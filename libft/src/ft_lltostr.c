@@ -14,36 +14,6 @@
 #include <stdlib.h>
 #include "libft.h"
 
-static int			ft_num_digits_base(long long num, int base)
-{
-	int num_digits;
-
-	if (num == 0)
-		return (1);
-	num_digits = 0;
-	while (num)
-	{
-		num /= base;
-		num_digits++;
-	}
-	return (num_digits);
-}
-
-static int			ft_num_digits_base_u(unsigned long long num, int base)
-{
-	int num_digits;
-
-	if (num == 0)
-		return (1);
-	num_digits = 0;
-	while (num)
-	{
-		num /= base;
-		num_digits++;
-	}
-	return (num_digits);
-}
-
 static long long	calc_divisor(int num_digits, int base)
 {
 	long long	divisor;
@@ -70,14 +40,14 @@ static long long	calc_divisor(int num_digits, int base)
 
 char				*ft_lltostr(long long num, char *base_charset)
 {
-	int			base;
-	char		*converted;
-	long long	divisor;
-	int			i;
-	int			num_digits;
+	int				base;
+	char			*converted;
+	long long		divisor;
+	unsigned int	i;
+	size_t			num_digits;
 
 	base = ft_strlen(base_charset);
-	num_digits = ft_num_digits_base(num, base);
+	num_digits = ft_num_digits_ll(num, base);
 	divisor = calc_divisor(num_digits, base);
 	if (!(converted = malloc(num_digits + 1 + (num < 0 ? 1 : 0))))
 		return (NULL);
@@ -111,11 +81,11 @@ char				*ft_ulltostr(unsigned long long num, char *base_charset)
 	int					base;
 	char				*converted;
 	unsigned long long	divisor;
-	int					i;
-	int					num_digits;
+	unsigned int		i;
+	size_t				num_digits;
 
 	base = ft_strlen(base_charset);
-	num_digits = ft_num_digits_base_u(num, base);
+	num_digits = ft_num_digits_ull(num, base);
 	i = 0;
 	divisor = 1;
 	while (i++ < num_digits - 1)

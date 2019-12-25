@@ -94,6 +94,8 @@ void			ft_memdel(void **ap);
 void			*ft_memmove(void *dst, const void *src, size_t len);
 void			*ft_memset(void *b, int c, size_t len);
 size_t			ft_num_digits(int n);
+size_t			ft_num_digits_ll(long long num, int base);
+size_t			ft_num_digits_ull(unsigned long long num, int base);
 int				ft_pow(int base, int exponent);
 void			ft_putchar(char c);
 void			ft_putchar_fd(int fd, char c);
