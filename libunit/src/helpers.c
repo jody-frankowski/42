@@ -37,23 +37,24 @@ int start_fd_capture(int fd)
 **
 ** stop_fd_capture will set @output to the content that was output to @fd.
 **
-** Return: On success 0. On error -1, and errno shall be set to indicate the
-** error.
 **
 ** FIXME errno isn't set when ft_read_all fails.
+** Return: The number of bytes written to @output on success. On error -1.
 */
 
 int stop_fd_capture(int fd, char **output)
 {
+	int ret;
+
 	if (close(g_pipe[1]) == -1)
 		return (-1);
 	if (close(fd) == -1)
 		return (-1);
-	if (ft_read_all(g_pipe[0], output) == -1)
+	if ((ret = ft_read_all(g_pipe[0], output)) == -1)
 		return (-1);
 	if (close(g_pipe[0]) == -1)
 		return (-1);
 	if (dup2(g_backup, fd) == -1)
 		return (-1);
-	return (0);
+	return (ret);
 }
