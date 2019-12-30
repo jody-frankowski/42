@@ -17,8 +17,9 @@
 
 /*
 ** ft_read_all - Reads as much as possible from a fd
-** @fd: The file descriptor to read from
-** @buf: The buffer to read in
+** @fd:  The file descriptor to read from
+** @buf: The buffer to read in. *buf should be set to an already allocated
+**       pointer or to NULL.
 **
 ** Sets @buf to point to the malloced memory containing the read.
 **
