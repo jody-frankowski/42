@@ -32,6 +32,9 @@ void	test_fd_capture(void)
 	char *test;
 	char *output;
 	int ret;
+	// /!\ Do not add a line return in test, because doing so would make libc's
+	// printf flush its buffers, making the printf test useless.
+	test = "ABCDE";
 
 	// Simple write() test
 	output = NULL;
@@ -41,6 +44,14 @@ void	test_fd_capture(void)
 	ASSERT(ret, ==, (int)strlen(test));
 	ASSERT_NOBJ(memcmp, test, output+1, ret, == 0, ft_hexdump_fd);
 	free(output);
+
+	// printf() test
+	output = NULL;
+	ft_err_exit(start_fd_capture(1) != 0, "Failed to start fd capture!\n");
+	printf("%s", test);
+	ft_err_exit((ret = stop_fd_capture(1, &output)) == -1, "Failed to stop fd capture!\n");
+	ASSERT(ret, ==, (int)strlen(test));
+	ASSERT_NOBJ(memcmp, test, output+1, ret, == 0, ft_hexdump_fd);
 	free(output);
 }
 

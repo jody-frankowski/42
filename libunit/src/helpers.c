@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <unistd.h>
 #include "libft.h"
 
@@ -35,10 +36,12 @@ int start_fd_capture(int fd)
 ** @fd: File descriptor to stop capture from
 ** @output: Pointer to which the capture will be writen to
 **
-** stop_fd_capture will set @output to the content that was output to @fd.
+** stop_fd_capture() will set @output to the content that was output to @fd
+** since start_fd_capture() was called.
 **
+** We really shouldn't flush the FILE streams for the caller, but we still do it
+** as a convenience.
 **
-** FIXME errno isn't set when ft_read_all fails.
 ** Return: The number of bytes written to @output on success. On error -1.
 */
 
@@ -46,6 +49,10 @@ int stop_fd_capture(int fd, char **output)
 {
 	int ret;
 
+	// We can't flush the specific FILE streams that would wrap @fd, so instead
+	// we flush all streams.
+	if (fflush(NULL) != 0)
+		return (-1);
 	if (close(g_pipe[1]) == -1)
 		return (-1);
 	if (close(fd) == -1)
