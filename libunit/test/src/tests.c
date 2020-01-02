@@ -42,7 +42,7 @@ void	test_fd_capture(void)
 	write(1, test, strlen(test));
 	ft_err_exit((ret = stop_fd_capture(1, &output)) == -1, "Failed to stop fd capture!\n");
 	ASSERT(ret, ==, (int)strlen(test));
-	ASSERT_NOBJ(memcmp, test, output+1, ret, == 0, ft_hexdump_fd);
+	ASSERT_NOBJ(memcmp, test, output+1, ret - 1, == 0, ft_hexdump_fd);
 	free(output);
 
 	// printf() test
@@ -51,7 +51,7 @@ void	test_fd_capture(void)
 	printf("%s", test);
 	ft_err_exit((ret = stop_fd_capture(1, &output)) == -1, "Failed to stop fd capture!\n");
 	ASSERT(ret, ==, (int)strlen(test));
-	ASSERT_NOBJ(memcmp, test, output+1, ret, == 0, ft_hexdump_fd);
+	ASSERT_NOBJ(memcmp, test, output+1, ret - 1, == 0, ft_hexdump_fd);
 	free(output);
 }
 
