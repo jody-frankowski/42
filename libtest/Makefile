@@ -112,11 +112,11 @@ else
 	lldb test/test
 endif
 
+ifeq ("$(COMPILER)", "gcc")
+ VALGRIND=valgrind --quiet --show-leak-kinds=all --leak-check=full --track-origins=yes
+endif
 PHONY += memcheck
 memcheck: tests
-ifeq ("$(COMPILER)", "gcc")
-	VALGRIND=valgrind --quiet --show-leak-kinds=all --leak-check=full --track-origins=yes
-endif
 ifeq ($(NAME),test)
 	$(VALGRIND) ./test
 else
