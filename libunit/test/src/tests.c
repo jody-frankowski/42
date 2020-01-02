@@ -38,7 +38,7 @@ void	test_fd_capture(void)
 
 	// Simple write() test
 	output = NULL;
-	ft_err_exit(start_fd_capture(1) != 0, "Failed to start fd capture!\n");
+	ft_err_exit(start_fd_capture(1) == -1, "Failed to start fd capture!\n");
 	write(1, test, strlen(test));
 	ft_err_exit((ret = stop_fd_capture(1, &output)) == -1, "Failed to stop fd capture!\n");
 	ASSERT(ret, ==, (int)strlen(test));
@@ -47,7 +47,7 @@ void	test_fd_capture(void)
 
 	// printf() test
 	output = NULL;
-	ft_err_exit(start_fd_capture(1) != 0, "Failed to start fd capture!\n");
+	ft_err_exit(start_fd_capture(1) == -1, "Failed to start fd capture!\n");
 	printf("%s", test);
 	ft_err_exit((ret = stop_fd_capture(1, &output)) == -1, "Failed to stop fd capture!\n");
 	ASSERT(ret, ==, (int)strlen(test));
