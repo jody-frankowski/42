@@ -58,7 +58,7 @@
 # define ASSERT_OBJ(cmp, left, right, condition, print) do { \
 	typeof(left) _left = (left); \
 	typeof(right) _right = (right); \
-	if (!(cmp(_left, _right)) condition) \
+	if (!((cmp(_left, _right)) condition)) \
 	{ \
 		dprintf( \
 			2, \
@@ -88,7 +88,7 @@
 # define ASSERT_NOBJ(cmp, left, right, len, condition, print) do { \
 	typeof(left) _left = (left); \
 	typeof(right) _right = (right); \
-	if (!(cmp(_left, _right, len)) condition) \
+	if (!((cmp(_left, _right, len)) condition)) \
 	{ \
 		dprintf( \
 			2, \
