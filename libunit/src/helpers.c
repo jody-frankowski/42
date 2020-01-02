@@ -63,5 +63,7 @@ int stop_fd_capture(int fd, char **output)
 		return (-1);
 	if (dup2(g_backup, fd) == -1)
 		return (-1);
+	if (close(g_backup) == -1)
+		return (-1);
 	return (ret);
 }
