@@ -114,12 +114,13 @@ endif
 
 PHONY += memcheck
 memcheck: tests
+ifeq ("$(COMPILER)", "gcc")
+	VALGRIND=valgrind --quiet --show-leak-kinds=all --leak-check=full --track-origins=yes
+endif
 ifeq ($(NAME),test)
-	valgrind --quiet --show-leak-kinds=all --leak-check=full --track-origins=yes \
-	./test
+	$(VALGRIND) ./test
 else
-	valgrind --quiet --show-leak-kinds=all --leak-check=full --track-origins=yes \
-	test/test
+	$(VALGRIND) test/test
 endif
 
 PHONY += run
