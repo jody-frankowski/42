@@ -43,3 +43,8 @@ neighborhood(Houses) :-
 	around_to([_, _, _, blend, _], [_, _, eau, _, _], Houses),
 	% Question : Qui a le poisson ?
 	member([_, _, _, _, poissons], Houses).
+
+find :-
+	find(FishHouse),
+	writeln(FishHouse),
+	halt(1).
