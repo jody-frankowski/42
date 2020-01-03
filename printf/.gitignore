@@ -1,0 +1,4 @@
+build/
+libftprintf.a
+test/build/
+test/test
