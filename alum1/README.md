@@ -1,4 +1,4 @@
-# Rush AlCu
+# `Alum1` aka `AlCu` - A rush on algorithms
 
 Subject: [alum1.en.pdf](alum1.en.pdf)
 
