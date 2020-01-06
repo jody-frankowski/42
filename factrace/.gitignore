@@ -1,2 +1,5 @@
 build/
 factrace
+lib/gmp-6.1.2.tar.xz
+lib/gmp-6.1.2/
+lib/libgmp.a
