@@ -35,6 +35,7 @@ void		algo(int i, t_lines lines, mpz_t timeout)
 		ctr_limit = mpz_get_ui(ctr_limit_mpz);
 	}
 
+	last_to_overflow = 0;
 	i = 1;
 	while (i < lines.max)
 	{
@@ -80,7 +81,10 @@ int			main(int ac, char **av)
 				break ;
 			}
 			if (buff[i] == '\n')
-				lines.ll[lines.max++].num = lines.max + 1;
+			{
+				lines.ll[lines.max].num = lines.max + 1;
+				lines.max++;
+			}
 			else
 				lines.ll[lines.max].str[lines.ll[lines.max].len++] = buff[i];
 			i++;

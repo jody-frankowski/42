@@ -22,9 +22,9 @@ int		prho(mpz_t n, unsigned long limit);
 void	initialize_fact(void);
 void	terminate_fact(void);
 
-static	mpz_t n;
-static	mpz_t x;
-static	mpz_t y;
-static	mpz_t d;
+mpz_t n;
+mpz_t x;
+mpz_t y;
+mpz_t d;
 
 #endif

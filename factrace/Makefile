@@ -14,15 +14,20 @@
 # The real PHONY target is set at the end of the Makefile
 .PHONY = all clean fclean norm re
 
+COMPILER = $(shell gcc -v 2>&1 | grep 'Apple LLVM' > /dev/null && echo "clang" || echo "gcc")
+
 ### CFLAGS
 CFLAGS  = -Wall -Wextra -Werror -Werror=vla
 CFLAGS += -O3 -march=native -pipe
-
 ### CFLAGS
 
 ### LIBRARIES
 INCLUDES = -I include/
+ifeq ("$(COMPILER)", "gcc")
+LDFLAGS  = -L lib/
+else
 LDFLAGS  = -L lib/ -Wl,-no_pie
+endif
 LDLIBS   = -lgmp
 ### LIBRARIES
 
@@ -34,9 +39,13 @@ OBJS      = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(DEPENDENCIES) $(OBJS)
+$(NAME): libgmp $(OBJS)
 	@# LDLIBS needs to appear after OBJS https://eli.thegreenplace.net/2013/07/09/library-order-in-static-linking
+ifeq ("$(COMPILER)", "gcc")
+	gcc $(CFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -no-pie -o $(NAME)
+else
 	gcc $(CFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
+endif
 
 $(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
