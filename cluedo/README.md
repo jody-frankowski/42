@@ -1,4 +1,4 @@
-# Cluedo - An introductory rush to logic programming
+# Cluedo - An Introductory Rush To Logic Programming
 
 Subject: [cluedo.en.pdf](cluedo.en.pdf)
 
