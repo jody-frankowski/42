@@ -61,6 +61,7 @@ HEADER_DEPS = $(OBJS:.o=.d)
 -include $(HEADER_DEPS)
 
 lib/libgmp.a:
+	@mkdir -p lib
 	cd lib/ && \
 	curl -L -O https://web.archive.org/web/20200106141404/https://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz && \
 	tar xJvf gmp-6.1.2.tar.xz && \
