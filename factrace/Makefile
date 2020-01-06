@@ -39,7 +39,7 @@ OBJS      = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): libgmp $(OBJS)
+$(NAME): lib/libgmp.a $(OBJS)
 	@# LDLIBS needs to appear after OBJS https://eli.thegreenplace.net/2013/07/09/library-order-in-static-linking
 ifeq ("$(COMPILER)", "gcc")
 	gcc $(CFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -no-pie -o $(NAME)
@@ -60,9 +60,21 @@ $(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 HEADER_DEPS = $(OBJS:.o=.d)
 -include $(HEADER_DEPS)
 
+lib/libgmp.a:
+	cd lib/ && \
+	curl -L -O https://web.archive.org/web/20200106141404/https://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz && \
+	tar xJvf gmp-6.1.2.tar.xz && \
+	cd gmp-6.1.2 && \
+	CFLAGS="-O3 -pedantic -fomit-frame-pointer -m64 -march=native" ./configure && \
+	make && \
+	mv .libs/libgmp.a ../
+
 clean:
 	rm -f $(OBJS) $(HEADER_DEPS)
 	[ -d $(BUILD_DIR) ] && rmdir $(BUILD_DIR) 2>/dev/null || true
+	rm -f  lib/gmp-6.1.2.tar.xz
+	rm -rf lib/gmp-6.1.2/
+	rm -f  lib/libgmp.a
 
 fclean: clean
 	rm -f $(NAME)
