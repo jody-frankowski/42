@@ -23,7 +23,7 @@
 ** impossible at worst.
 */
 
-# define WORDSIZE sizeof(unsigned long)
+# define WORDSIZE 8
 
 # define HEXDUMP_WIDTH 16
 
