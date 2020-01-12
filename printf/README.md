@@ -1,8 +1,8 @@
-# `ft_printf`
+# printf - Write Our Own Printf
 
-Subject: [ft_printf.en.pdf](ft_printf.en.pdf)
+Subject: [ft\_printf.en.pdf](ft\_printf.en.pdf)
 
-This is a simple implementation of some of the printf features.
+The goal of this project was implement of some of the features of printf.
 
 The following features are supported:
 
