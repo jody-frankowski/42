@@ -49,7 +49,7 @@ o........o
 
 Our bsq used the following algorithm:
 
-- Consider the map to be a grid of zeroes
+- Consider the map to be a grid of numbers
 - Start from the top left corner
 - Move from left to right, top to bottom
 - For the current tile add one to the minimum value between the tile directly
