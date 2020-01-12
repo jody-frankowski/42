@@ -18,7 +18,7 @@ and api. So this repository doesn't represent what was asked for the project.
 The main purpose of the library and wrapper macros is to right away see the
 value of the things that were checked.
 Because this library focuses on printing stuff when tests fail, it doesn't print
-anything when things run well. So no output == GOOD, output == BAD. Simple.
+anything when things run well. So, no output == GOOD, output == BAD. Simple.
 
 ## API
 
