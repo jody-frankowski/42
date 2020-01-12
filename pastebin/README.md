@@ -23,6 +23,8 @@ the code or ideas may not be not mine.
 ```sh
 npm install
 node app.js
+# OR
+vagrant up
 ```
 
 Open the client [localhost:3000](localhost:3000) and the admin
