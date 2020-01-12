@@ -17,9 +17,9 @@
 #include "libft.h"
 
 /*
-** get_or_add - Add a new fd to the list of files
+** get_or_add() - Add a new fd to the list of files
 ** @files: Pointer to the list of files to get from or add to
-** @fd: File descriptor to get or add
+** @fd:    File descriptor to get or add
 **
 ** Return: Pointer to the existing file
 */
@@ -44,9 +44,9 @@ static t_file	*get_or_add(t_list **files, const int fd)
 }
 
 /*
-** gnl_free - Free helper #norminette
+** gnl_free() - Free helper #norminette
 ** @files: A list of t_file to free
-** @f: A file to free
+** @f:     A file to free
 */
 
 static int		gnl_free(t_list **files, t_file *f)
@@ -57,10 +57,10 @@ static int		gnl_free(t_list **files, t_file *f)
 }
 
 /*
-** gnl_set_line - Second part of gnl #norminette
+** gnl_set_line() - Second part of gnl #Norm
 ** @files: A saved list of files being read
-** @f: The current file being read
-** @line: A pointer to the line that will be returned
+** @f:     The current file being read
+** @line:  A pointer to the line that will be returned
 ** @nlptr: A pointer to the next \n char in @f->buf
 */
 
@@ -96,16 +96,16 @@ static int		gnl_set_line(
 }
 
 /*
-** gnl - Read a line
-** @fd: File descriptor to read from
+** gnl() - Read a line
+** @fd:   File descriptor to read from
 ** @line: Pointer to the string that will be set by the function
 **
-** gnl will read a line (or what remains) from the file descriptor fd
+** gnl will read a line (or what remains) from the file descriptor @fd
 ** into the argument line.
 ** The function uses a static variable to keep track of the different file
 ** descriptors and what was already read.
 ** It is considered to be undefined behavior if the caller does any read/seek
-** on fd between calls.
+** on @fd between calls.
 ** The function doesn't read on its stack so that if a malloc fails, what was
 ** read is never lost.
 ** In case of error the function won't free its data and will try to keep
