@@ -1,4 +1,4 @@
-# init - Introduction Subject to System and Network Administration
+# init - An Introduction to System and Network Administration
 
 Subject: [init.en.pdf](init.en.pdf)
 
