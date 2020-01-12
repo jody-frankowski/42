@@ -2,8 +2,11 @@
 
 Subject: [cluedo.en.pdf](cluedo.en.pdf)
 
-This rush was an introductory rush to logic programming with
-[Prolog](https://en.wikipedia.org/wiki/Prolog).
+This project had to be done in 48 hours and it was an introduction to logic
+programming with [Prolog](https://en.wikipedia.org/wiki/Prolog).
+
+Please keep in mind that this project was done in a group, so obviously part of
+the code or ideas may not be not mine.
 
 ## Setup
 
