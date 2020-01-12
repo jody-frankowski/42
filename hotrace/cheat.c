@@ -13,12 +13,12 @@
 
 #include "libft.h"
 
-void	ft_putchar(char c)
+static inline void	ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
 
-int		cheat(void)
+int					cheat(void)
 {
 	if (g_buf_ptr[g_buf_size - 5] == 0x0a && g_buf_ptr[g_buf_size - 4] == 0x0a)
 	{

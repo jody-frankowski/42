@@ -37,22 +37,13 @@ char			g_print_buf[PRINT_BUF_SIZE];
 size_t			g_print_buf_size;
 t_tab			g_tab[TAB_LEN];
 
-void			*ft_memcpy(
-						void *dst,
-						const void *src,
-						size_t n); __attribute__((always_inline))
-int				keycmp(
-					const char *key1,
-					const char *key2,
-					uint8_t key1_len); __attribute__((always_inline))
-void			free_tab(); __attribute__((always_inline))
-
-void			print(char *str, size_t n); __attribute__((always_inline))
-void			print_flush(); __attribute__((always_inline))
-void			print_data(
-						char *data,
-						uint8_t length); __attribute__((always_inline))
-void			ft_read_all(int fd); __attribute__((always_inline))
+void			*ft_memcpy(void *dst, const void *src, size_t n);
+int				keycmp(const char *key1, const char *key2, uint8_t key1_len);
+void			free_tab();
+void			print(char *str, size_t n);
+void			print_flush();
+void			print_data(char *data, uint8_t length);
+void			ft_read_all(int fd);
 int				treat_dict();
 int				cheat();
 
