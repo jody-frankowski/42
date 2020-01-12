@@ -15,7 +15,7 @@ Algorithm](https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm) to
 factorize the numbers ([fact.c](src/fact.c)).
 
 A trick I used was to try to factorize the last line that was 3 digits longer
-than its immediate neighbors ([fact.c](src/fact.c#L38)).
+than its immediate neighbors ([main.c](src/main.c#L38)).
 
 I had gathered a lot of informations on the examples files, such as:
 - The time to factorize with a dumb algorithm, our algorithm or the with the
