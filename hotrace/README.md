@@ -1,4 +1,4 @@
-# HotRace - An Indexing Race
+# HotRace - An Indexing and Searching Race
 
 Subject: [hotrace.pdf](hotrace.pdf)
 
