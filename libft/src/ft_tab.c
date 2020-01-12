@@ -72,7 +72,7 @@ int		ft_tab_push_ptr(void **tab, void *ptr, size_t width, size_t len)
 ** The caller needs to make @free_func coherent with whether pointer or data was
 ** pushed into the tab.
 **
-** Return: NULL as a convenience for the norminette.
+** Return: NULL as a convenience for The Norm.
 */
 
 void	*ft_tab_free(void *tab,

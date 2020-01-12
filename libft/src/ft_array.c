@@ -105,7 +105,7 @@ void	*ft_array_get(t_array *array, size_t index)
 ** ft_array_free - Free a t_array
 ** @array: The t_array to free
 **
-** Return: NULL as a convenience for the norminette.
+** Return: NULL as a convenience for The Norm.
 */
 
 void	*ft_array_free(t_array *array)

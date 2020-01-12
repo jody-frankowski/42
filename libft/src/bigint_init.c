@@ -36,7 +36,7 @@ int		bigint_init(t_bigint num)
 ** bigint_free() - Free a bigint
 ** @num: The bigint to free.
 **
-** Return: 1 as a convenience for the norminette.
+** Return: 1 as a convenience for The Norm.
 */
 
 int		bigint_free(t_bigint num)
