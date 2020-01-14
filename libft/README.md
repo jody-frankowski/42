@@ -1,4 +1,4 @@
-# `libft`
+# `libft` - A Custom Libc and More
 
 Subject: [libft.en.pdf](libft.en.pdf)
 
