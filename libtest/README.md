@@ -1,4 +1,4 @@
-# `libtest`
+# `libtest` - A Unit Tests Library (Legacy)
 
 Subject: None. This was not a school project.
 
