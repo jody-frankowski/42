@@ -1,4 +1,4 @@
-# minirogue - Developing a Rogue Game in Python
+# minirogue - A Rogue Game in Python
 
 Subject: [ft\_minirogue.pdf](ft\_minirogue.pdf)
 
