@@ -10,6 +10,7 @@ sourced) so far.
 - [FactRace](factrace/): A prime factorization race. Got 1st place 🥇!
 - [Fillit](fillit/): Fit geometric shapes in the smallest square possible as
   fast as possible
+- [Filler](filler/): An AI that tries to fill a map the most
 - [get\_next\_line](gnl/): A function to read a file line by line
 - [HotRace](hotrace/): An indexing and searching race. Got 1st place 🥇!
 - [init](init/): An introduction to system and network administration
