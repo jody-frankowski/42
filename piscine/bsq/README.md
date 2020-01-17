@@ -1,4 +1,4 @@
-# bsq - Find the Biggest Square on a Map
+# BSQ - Find the Biggest Square Possible Between Obstacles
 
 Subject: [bsq.en.pdf](bsq.en.pdf)
 

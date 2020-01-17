@@ -1,4 +1,4 @@
-# Fillit - Fit Tetriminos In The Smallest Square Possible As Fast As Possible
+# Fillit - Fit Geometric Shapes In The Smallest Square Possible As Fast As Possible
 
 Subject: [fillit.en.pdf](fillit.en.pdf)
 

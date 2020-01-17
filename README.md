@@ -20,6 +20,6 @@ sourced) so far.
 - [Minirogue](minirogue/): A rogue game in Python
 - [Pastebin](pastebin/): A pastebin website in JS
 - [Piscine](piscine/): Code from the Piscine selection
-- [piscine\_reloaded](piscine\_reloaded/): A rehash of the functions made during
+- [Piscine Reloaded](piscine\_reloaded/): A rehash of the functions made during
   the Piscine
 - [printf](printf/): A custom implementation of `printf()`

@@ -1,4 +1,4 @@
-# minirogue - A Rogue Game in Python
+# Minirogue - A Rogue Game in Python
 
 Subject: [ft\_minirogue.pdf](ft\_minirogue.pdf)
 

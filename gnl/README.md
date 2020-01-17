@@ -1,4 +1,4 @@
-# get\_next\_line (gnl) - A Function That Helps Reading A File Line By Line
+# `get\_next\_line` (gnl) - A Function to Read a File Line by Line
 
 Subject: [get\_next\_line.en.pdf](get\_next\_line.en.pdf)
 

@@ -1,4 +1,4 @@
-# piscine - One Intense Coding Month
+# piscine - Code From the Piscine Selection
 
 This project contains all the exercises (d??/), weekend projects (rush?? and
 proj??) and also the final project [bsq](bsq/) done by two.

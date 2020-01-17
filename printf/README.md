@@ -1,4 +1,4 @@
-# printf - Write Our Own Printf
+# `printf` - A Custom Implementation of `printf()`
 
 Subject: [ft\_printf.en.pdf](ft\_printf.en.pdf)
 
