@@ -2,8 +2,9 @@
 
 Subject: [libunit.en.pdf](libunit.en.pdf)
 
-This was a school project, but the subject was uselessly too large/strict in its
-requirements:
+The goal of this project was to write a library that helps writing unit tests
+along with some example unit tests.
+However the subject was uselessly too large/strict in its requirements:
 
   - one file per test
   - one directory for every function tested
@@ -15,10 +16,12 @@ requirements:
 Instead I chose to spend my time on the fork, signal catching, output capturing
 and api. So this repository doesn't represent what was asked for the project.
 
-The main purpose of the library and wrapper macros is to right away see the
-value of the things that were checked.
-Because this library focuses on printing stuff when tests fail, it doesn't print
-anything when things run well. So, no output == GOOD, output == BAD. Simple.
+The main purpose of the library and wrapper macros is to see the value of the
+things that were checked right away.
+Because this library focuses on printing informations when tests fail, it
+doesn't print anything when tests pass.
+
+So, no output == GOOD, output == BAD. Simple.
 
 ## API
 
