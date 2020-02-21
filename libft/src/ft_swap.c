@@ -24,6 +24,7 @@
 ** The swap is done in place with XOR, so no malloc is needed.
 ** The XOR is done on elements of `long` size as long as possible.
 ** TODO Handle a and b being misaligned.
+** /!\ if a == b, the buffer will be cleared out (set to zeroes).
 */
 
 void	ft_swap(void *a, void *b, size_t len)
