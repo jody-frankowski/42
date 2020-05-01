@@ -168,4 +168,8 @@ int				ft_toupper(int c);
 int				ft_read_up_to(int fd, char *buff, int to_read, int *total);
 char			*ft_ulltostr(unsigned long long num, char *base_charset);
 
+char			*ft_ltrim(char *str, char *chars);
+char			*ft_rtrim(char *str, char *chars);
+char			*ft_trim(char *str, char *chars);
+
 #endif

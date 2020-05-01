@@ -1481,6 +1481,104 @@ void test_ft_num_digits_ull()
 	ASSERT(ft_num_digits_ull(ULLONG_MAX, 16), ==, 16U);
 }
 
+void test_ft_ltrim()
+{
+	ASSERT(strcmp(ft_ltrim("", ""), ""), ==, 0);
+	ASSERT(strcmp(ft_ltrim("abc", ""), "abc"), ==, 0);
+
+	ASSERT(strcmp(ft_ltrim("", " \t"), ""), ==, 0);
+	ASSERT(strcmp(ft_ltrim(" ", " \t"), ""), ==, 0);
+	ASSERT(strcmp(ft_ltrim("\t", " \t"), ""), ==, 0);
+	ASSERT(strcmp(ft_ltrim(" \t", " \t"), ""), ==, 0);
+	ASSERT(strcmp(ft_ltrim("\t ", " \t"), ""), ==, 0);
+
+	ASSERT(strcmp(ft_ltrim("abc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim(" abc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim("  abc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim("\tabc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim("\t abc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim(" \tabc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim(" \t abc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim("\t \tabc", " \t"), "abc"), ==, 0);
+	ASSERT(strcmp(ft_ltrim("a b c ", " \t"), "a b c "), ==, 0);
+}
+
+void test_ft_rtrim()
+{
+	char *str;
+
+	str = strdup("");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup("abc");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+
+	str = strdup(" ");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup("\t");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup(" \t");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup("\t ");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), ""), ==, 0); free(str);
+
+	str = strdup("abc");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("abc ");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("abc  ");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("abc\t");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("abc\t ");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("abc \t");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("abc \t ");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("abc\t \t");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup(" a b c");
+	ASSERT(strcmp(ft_rtrim(str, " \t"), " a b c"), ==, 0); free(str);
+}
+
+void test_ft_trim()
+{
+	char *str;
+
+	str = strdup("");
+	ASSERT(strcmp(ft_trim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup("abc");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+
+	str = strdup(" ");
+	ASSERT(strcmp(ft_trim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup("\t");
+	ASSERT(strcmp(ft_trim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup(" \t");
+	ASSERT(strcmp(ft_trim(str, " \t"), ""), ==, 0); free(str);
+	str = strdup("\t ");
+	ASSERT(strcmp(ft_trim(str, " \t"), ""), ==, 0); free(str);
+
+	str = strdup("abc");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup(" abc ");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("  abc  ");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("\tabc\t");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup(" \tabc\t ");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("\t abc \t");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup(" \t abc \t ");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup("\t \tabc\t \t");
+	ASSERT(strcmp(ft_trim(str, " \t"), "abc"), ==, 0); free(str);
+	str = strdup(" a b c ");
+	ASSERT(strcmp(ft_trim(str, " \t"), "a b c"), ==, 0); free(str);
+}
+
 int		main()
 {
 	// Old Framework Tests
@@ -1563,4 +1661,8 @@ int		main()
 
 	RUN_TEST(test_ft_num_digits_ll);
 	RUN_TEST(test_ft_num_digits_ull);
+
+	RUN_TEST(test_ft_ltrim);
+	RUN_TEST(test_ft_rtrim);
+	RUN_TEST(test_ft_trim);
 }
