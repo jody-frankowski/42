@@ -799,6 +799,25 @@ void test_ft_array_push()
 	ft_array_free(array);
 }
 
+void test_ft_putchar()
+{
+	char *have = NULL;
+	char want[3] = {'a', 0x00, 0xFF};
+	int ret;
+
+	ft_err_exit(start_fd_capture(1) == -1, "Failed to start fd capture!\n");
+	ft_putchar('a');
+	ft_putchar(0x00);
+	ft_putchar(0xFF);
+	ft_err_exit((ret = stop_fd_capture(1, &have)) == -1, "Failed to stop fd capture!\n");
+
+
+	ASSERT(ret, ==, 3);
+	ASSERT_NOBJ(memcmp, (char*)want, have, ret, == 0, ft_hexdump_fd);
+
+	free(have);
+}
+
 void test_bigint_init()
 {
 	t_bigint num;
@@ -1630,6 +1649,8 @@ int		main()
 	/* test_ft_gnl(); */
 	/* test_ft_read_all(); */
 	/* test_ft_realloc(); */
+
+	RUN_TEST(test_ft_putchar);
 
 	// New Framework Tests
 	RUN_TEST(test_bigint_init);
