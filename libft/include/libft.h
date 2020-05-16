@@ -30,6 +30,21 @@
 typedef unsigned char	t_byte;
 typedef unsigned long	t_word;
 
+/*
+** struct s_bstr - A "binary" string
+** @str: A pointer to the string data
+** @len: The string length
+**
+** Since we track the size of the "binary" string we can store NULL bytes in it.
+** This can be used as a lightweight alternative to t_array.
+*/
+
+typedef struct	s_bstr
+{
+	char	*str;
+	size_t	len;
+}				t_bstr;
+
 typedef struct	s_array
 {
 	t_byte	*bytes;
@@ -171,5 +186,10 @@ char			*ft_ulltostr(unsigned long long num, char *base_charset);
 char			*ft_ltrim(char *str, char *chars);
 char			*ft_rtrim(char *str, char *chars);
 char			*ft_trim(char *str, char *chars);
+
+t_bstr			bstr_new(char *str);
+t_bstr			bstr_read_until(t_bstr *str, char *charset);
+size_t			bstr_skip_char(t_bstr *str, char c);
+size_t			bstr_skip_chars(t_bstr *str, char *charset);
 
 #endif

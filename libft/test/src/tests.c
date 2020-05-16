@@ -1598,6 +1598,142 @@ void test_ft_trim()
 	ASSERT(strcmp(ft_trim(str, " \t"), "a b c"), ==, 0); free(str);
 }
 
+void test_bstr_new()
+{
+	t_bstr result;
+	char *str;
+
+	str = "abc";
+	result = bstr_new(str);
+	ASSERT(result.str, ==, str);
+	ASSERT(result.len, ==, 3U);
+
+	str = "";
+	result = bstr_new(str);
+	ASSERT(result.str, ==, str);
+	ASSERT(result.len, ==, 0U);
+}
+
+void test_bstr_read_until()
+{
+	t_bstr test;
+	t_bstr new;
+	char *str;
+
+	// Read until a char
+	str = "abc";
+	test = bstr_new(str);
+	new = bstr_read_until(&test, "c");
+	ASSERT(new.str, ==, str);
+	ASSERT(new.len, ==, 2U);
+	ASSERT(test.str, ==, str + 2);
+	ASSERT(test.len, ==, 1U);
+
+	// Read until two chars
+	str = "abc";
+	test = bstr_new(str);
+	new = bstr_read_until(&test, "cb");
+	ASSERT(new.str, ==, str);
+	ASSERT(new.len, ==, 1U);
+	ASSERT(test.str, ==, str + 1);
+	ASSERT(test.len, ==, 2U);
+
+	// Read the whole bstr with an empty charset
+	str = "abc";
+	test = bstr_new(str);
+	new = bstr_read_until(&test, "");
+	ASSERT(new.str, ==, str);
+	ASSERT(new.len, ==, 3U);
+	ASSERT(test.str, ==, str + 3);
+	ASSERT(test.len, ==, 0U);
+
+	// Read the whole bstr with a charset that isn't in the bstr
+	str = "abc";
+	test = bstr_new(str);
+	new = bstr_read_until(&test, "d");
+	ASSERT(new.str, ==, str);
+	ASSERT(new.len, ==, 3U);
+	ASSERT(test.str, ==, str + 3);
+	ASSERT(test.len, ==, 0U);
+
+	// Read until the first char
+	str = "abc";
+	test = bstr_new(str);
+	new = bstr_read_until(&test, "a");
+	ASSERT(new.str, ==, str);
+	ASSERT(new.len, ==, 0U);
+	ASSERT(test.str, ==, str);
+	ASSERT(test.len, ==, 3U);
+}
+
+void test_bstr_skip_char()
+{
+	t_bstr test;
+	char *str;
+
+	// Read character in bstr
+	str = "abc";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_char(&test, 'a'), ==, 1U);
+	ASSERT(test.str, ==, str + 1);
+	ASSERT(test.len, ==, 2U);
+
+	// Read character not in bstr
+	str = "abc";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_char(&test, 'z'), ==, 0U);
+	ASSERT(test.str, ==, str);
+	ASSERT(test.len, ==, 3U);
+
+	// bstr is empty
+	str = "";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_char(&test, 'a'), ==, 0U);
+	ASSERT(test.str, ==, str);
+	ASSERT(test.len, ==, 0U);
+}
+
+void test_bstr_skip_chars()
+{
+	t_bstr test;
+	char *str;
+
+	// Read the whole bstr
+	str = "abc";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_chars(&test, "abc"), ==, 3U);
+	ASSERT(test.str, ==, str + 3);
+	ASSERT(test.len, ==, 0U);
+
+	// Read part of the bstr
+	str = "abc";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_chars(&test, "ba"), ==, 2U);
+	ASSERT(test.str, ==, str + 2);
+	ASSERT(test.len, ==, 1U);
+
+	// Read none of the bstr
+	str = "abc";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_chars(&test, "z"), ==, 0U);
+	ASSERT(test.str, ==, str);
+	ASSERT(test.len, ==, 3U);
+
+	// Read from an empty bstr
+	str = "";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_chars(&test, "z"), ==, 0U);
+	ASSERT(test.str, ==, str);
+	ASSERT(test.len, ==, 0U);
+
+	// Read with an empty charset
+	str = "abc";
+	test = bstr_new(str);
+	ASSERT(bstr_skip_chars(&test, ""), ==, 0U);
+	ASSERT(test.str, ==, str);
+	ASSERT(test.len, ==, 3U);
+}
+
 int		main()
 {
 	// Old Framework Tests
@@ -1686,4 +1822,9 @@ int		main()
 	RUN_TEST(test_ft_ltrim);
 	RUN_TEST(test_ft_rtrim);
 	RUN_TEST(test_ft_trim);
+
+	RUN_TEST(test_bstr_new);
+	RUN_TEST(test_bstr_read_until);
+	RUN_TEST(test_bstr_skip_char);
+	RUN_TEST(test_bstr_skip_chars);
 }
