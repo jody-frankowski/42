@@ -14,6 +14,7 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdint.h>
 # include <string.h>
 
 /*
@@ -197,5 +198,10 @@ size_t			bstr_skip_chars(t_bstr *str, char *charset);
 t_bstr			bstr_ltrim(t_bstr str, char *charset);
 t_bstr			bstr_rtrim(t_bstr str, char *charset);
 t_bstr			bstr_trim(t_bstr str, char *charset);
+
+uint16_t		ft_betoh16(uint16_t value);
+uint32_t		ft_betoh32(uint32_t value);
+uint16_t		ft_htobe16(uint16_t value);
+uint32_t		ft_htobe32(uint32_t value);
 
 #endif
