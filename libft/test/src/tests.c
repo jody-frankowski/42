@@ -1614,6 +1614,57 @@ void test_bstr_new()
 	ASSERT(result.len, ==, 0U);
 }
 
+void test_bstr_cmp()
+{
+	t_bstr s1;
+	t_bstr s2;
+
+	// equal
+	s1 = bstr_new("bcd");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), ==, 0);
+
+	// before because smaller
+	s1 = bstr_new("bc");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), <, 0);
+
+	// smaller and before
+	s1 = bstr_new("bb");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), <, 0);
+
+	// smaller and after
+	s1 = bstr_new("bd");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), >, 0);
+
+	// same length but before
+	s1 = bstr_new("bcc");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), <, 0);
+
+	// same length but after
+	s1 = bstr_new("bce");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), >, 0);
+
+	// after because longer
+	s1 = bstr_new("bcda");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), >, 0);
+
+	// longer and before
+	s1 = bstr_new("bcca");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), <, 0);
+
+	// longer and after
+	s1 = bstr_new("bcea");
+	s2 = bstr_new("bcd");
+	ASSERT(bstr_cmp(&s1, &s2), >, 0);
+}
+
 void test_bstr_read_until()
 {
 	t_bstr test;
@@ -1824,6 +1875,8 @@ int		main()
 	RUN_TEST(test_ft_trim);
 
 	RUN_TEST(test_bstr_new);
+	RUN_TEST(test_bstr_cmp);
+
 	RUN_TEST(test_bstr_read_until);
 	RUN_TEST(test_bstr_skip_char);
 	RUN_TEST(test_bstr_skip_chars);

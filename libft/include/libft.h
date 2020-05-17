@@ -188,6 +188,8 @@ char			*ft_rtrim(char *str, char *chars);
 char			*ft_trim(char *str, char *chars);
 
 t_bstr			bstr_new(char *str);
+int				bstr_cmp(t_bstr *s1, t_bstr *s2);
+
 t_bstr			bstr_read_until(t_bstr *str, char *charset);
 size_t			bstr_skip_char(t_bstr *str, char c);
 size_t			bstr_skip_chars(t_bstr *str, char *charset);

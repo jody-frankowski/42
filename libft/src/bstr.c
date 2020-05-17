@@ -25,3 +25,25 @@ t_bstr	bstr_new(char *str)
 {
 	return ((t_bstr){str, ft_strlen(str)});
 }
+
+/*
+** bstr_cmp() - Compare two bstr
+** @s1: The first bstr to compare
+** @s2: The second bstr to compare
+**
+** Return:
+*/
+
+int		bstr_cmp(t_bstr *s1, t_bstr *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < s1->len && i < s2->len)
+	{
+		if (s1->str[i] != s2->str[i])
+			return (s1->str[i] - s2->str[i]);
+		i++;
+	}
+	return (s1->len - s2->len);
+}
