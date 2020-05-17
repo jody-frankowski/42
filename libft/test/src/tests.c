@@ -1975,7 +1975,7 @@ void test_bstr_trim()
 
 int		main()
 {
-	// Old Framework Tests
+	/*** Old Framework Tests ***/
 	test_ft_atoi();
 	test_ft_charcasecmp();
 	test_ft_count_words();
@@ -2025,9 +2025,9 @@ int		main()
 	/* test_ft_read_all(); */
 	/* test_ft_realloc(); */
 
+	/*** New Framework Tests ***/
 	RUN_TEST(test_ft_putchar);
 
-	// New Framework Tests
 	RUN_TEST(test_bigint_init);
 	/* RUN_TEST(test_bigint_fix_size); */
 
