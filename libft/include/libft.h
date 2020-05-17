@@ -194,4 +194,8 @@ t_bstr			bstr_read_until(t_bstr *str, char *charset);
 size_t			bstr_skip_char(t_bstr *str, char c);
 size_t			bstr_skip_chars(t_bstr *str, char *charset);
 
+t_bstr			bstr_ltrim(t_bstr str, char *charset);
+t_bstr			bstr_rtrim(t_bstr str, char *charset);
+t_bstr			bstr_trim(t_bstr str, char *charset);
+
 #endif

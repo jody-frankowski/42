@@ -1785,6 +1785,194 @@ void test_bstr_skip_chars()
 	ASSERT(test.len, ==, 3U);
 }
 
+void test_bstr_ltrim()
+{
+	t_bstr in;
+	t_bstr out;
+	t_bstr want;
+
+	// 1 char once
+	in = bstr_new(" abc");
+	out = bstr_ltrim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 1 char leading and trailing
+	in = bstr_new(" abc ");
+	out = bstr_ltrim(in, " ");
+	want = bstr_new("abc ");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 1 char twice
+	in = bstr_new("  abc");
+	out = bstr_ltrim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once in order
+	in = bstr_new(" \tabc");
+	out = bstr_ltrim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once out of order
+	in = bstr_new("\t abc");
+	out = bstr_ltrim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// multiple chars mixed
+	in = bstr_new(" \t \t abc");
+	out = bstr_ltrim(in, "\t ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+}
+
+void test_bstr_rtrim()
+{
+	t_bstr in;
+	t_bstr out;
+	t_bstr want;
+
+	// 1 char once
+	in = bstr_new("abc ");
+	out = bstr_rtrim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 1 char leading and trailing
+	in = bstr_new(" abc ");
+	out = bstr_rtrim(in, " ");
+	want = bstr_new(" abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 1 char twice
+	in = bstr_new("abc  ");
+	out = bstr_rtrim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once in order
+	in = bstr_new("abc \t");
+	out = bstr_rtrim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once out of order
+	in = bstr_new("abc\t ");
+	out = bstr_rtrim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// multiple chars mixed
+	in = bstr_new("abc \t \t ");
+	out = bstr_rtrim(in, "\t ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+}
+
+void test_bstr_trim()
+{
+	t_bstr in;
+	t_bstr out;
+	t_bstr want;
+
+	// Left only
+	// 1 char once
+	in = bstr_new(" abc");
+	out = bstr_trim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 1 char twice
+	in = bstr_new("  abc");
+	out = bstr_trim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once in order
+	in = bstr_new(" \tabc");
+	out = bstr_trim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once out of order
+	in = bstr_new("\t abc");
+	out = bstr_trim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// multiple chars mixed
+	in = bstr_new(" \t \t abc");
+	out = bstr_trim(in, "\t ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+
+	// Right only
+	// 1 char once
+	in = bstr_new("abc ");
+	out = bstr_trim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 1 char twice
+	in = bstr_new("abc  ");
+	out = bstr_trim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once in order
+	in = bstr_new("abc \t");
+	out = bstr_trim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once out of order
+	in = bstr_new("abc\t ");
+	out = bstr_trim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// multiple chars mixed
+	in = bstr_new("abc \t \t ");
+	out = bstr_trim(in, "\t ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+
+	// Both
+	// 1 char once
+	in = bstr_new(" abc ");
+	out = bstr_trim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 1 char twice
+	in = bstr_new("  abc  ");
+	out = bstr_trim(in, " ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once in order
+	in = bstr_new(" \tabc \t");
+	out = bstr_trim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// 2 chars once out of order
+	in = bstr_new("\t abc\t ");
+	out = bstr_trim(in, " \t");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+
+	// multiple chars mixed
+	in = bstr_new(" \t \t abc \t \t ");
+	out = bstr_trim(in, "\t ");
+	want = bstr_new("abc");
+	ASSERT(bstr_cmp(&out, &want), ==, 0);
+}
+
 int		main()
 {
 	// Old Framework Tests
@@ -1880,4 +2068,8 @@ int		main()
 	RUN_TEST(test_bstr_read_until);
 	RUN_TEST(test_bstr_skip_char);
 	RUN_TEST(test_bstr_skip_chars);
+
+	RUN_TEST(test_bstr_ltrim);
+	RUN_TEST(test_bstr_rtrim);
+	RUN_TEST(test_bstr_trim);
 }
