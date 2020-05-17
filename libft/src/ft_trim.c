@@ -15,26 +15,26 @@
 
 /*
 ** ft_ltrim() - Remove leading characters from a string
-** @str:   The string to treat
-** @chars: The characters to remove
+** @str:     The string to use
+** @charset: The characters to remove
 **
 ** ft_ltrim() will "remove" leading characters by returning a pointer to the
-** first character that isn't in @chars.
+** first character that isn't in @charset.
 **
 ** Return: A pointer in @str after the leading characters.
 */
 
-char	*ft_ltrim(char *str, char *chars)
+char	*ft_ltrim(char *str, char *charset)
 {
-	while (*str && ft_incharset(*str, chars))
+	while (*str && ft_incharset(*str, charset))
 		str++;
 	return (str);
 }
 
 /*
 ** ft_rtrim() - Remove trailing characters from a string
-** @str:   The string to treat
-** @chars: The characters to remove
+** @str:     The string to use
+** @charset: The characters to remove
 **
 ** ft_rtrim() will "remove" trailing characters by overwriting them with \0
 ** characters.
@@ -42,12 +42,12 @@ char	*ft_ltrim(char *str, char *chars)
 ** Return: A pointer to @str.
 */
 
-char	*ft_rtrim(char *str, char *chars)
+char	*ft_rtrim(char *str, char *charset)
 {
 	int	i;
 
 	i = ft_strlen(str) - 1;
-	while (i >= 0 && ft_incharset(str[i], chars))
+	while (i >= 0 && ft_incharset(str[i], charset))
 	{
 		str[i] = '\0';
 		i--;
@@ -57,18 +57,19 @@ char	*ft_rtrim(char *str, char *chars)
 
 /*
 ** ft_trim() - Remove leading and trailing characters from a string
-** @str:   The string to treat
-** @chars: The characters to remove
+** @str:     The string to use
+** @charset: The characters to remove
 **
 ** ft_trim() will "remove" leading and trailing characters by calling ft_ltrim()
 ** and ft_rtrim() on @str.
 **
-** Return: A pointer in @str after the leading characters.
+** Return: A pointer in @str after the leading characters and with the trailing
+** characters overwritten with \0 characters.
 */
 
-char	*ft_trim(char *str, char *chars)
+char	*ft_trim(char *str, char *charset)
 {
-	str = ft_ltrim(str, chars);
-	str = ft_rtrim(str, chars);
+	str = ft_ltrim(str, charset);
+	str = ft_rtrim(str, charset);
 	return (str);
 }
