@@ -29,7 +29,8 @@ uint16_t	ft_betoh16(uint16_t value)
 	i = 0;
 	while (i < sizeof(value))
 	{
-		converted |= ((uint8_t*)&value)[i] << (8 * (sizeof(value) - 1 - i));
+		converted |= (typeof(value))((uint8_t*)&value)[i]
+			<< (8 * (sizeof(value) - 1 - i));
 		i++;
 	}
 	return (converted);
@@ -51,7 +52,31 @@ uint32_t	ft_betoh32(uint32_t value)
 	i = 0;
 	while (i < sizeof(value))
 	{
-		converted |= ((uint8_t*)&value)[i] << (8 * (sizeof(value) - 1 - i));
+		converted |= (typeof(value))((uint8_t*)&value)[i]
+			<< (8 * (sizeof(value) - 1 - i));
+		i++;
+	}
+	return (converted);
+}
+
+/*
+** ft_betoh64() - Convert a 64 bits long integer from big-endian to host order
+** @value: The value to convert
+**
+** Return: The value in host order.
+*/
+
+uint64_t	ft_betoh64(uint64_t value)
+{
+	uint64_t	converted;
+	size_t		i;
+
+	converted = 0;
+	i = 0;
+	while (i < sizeof(value))
+	{
+		converted |= (typeof(value))((uint8_t*)&value)[i]
+			<< (8 * (sizeof(value) - 1 - i));
 		i++;
 	}
 	return (converted);

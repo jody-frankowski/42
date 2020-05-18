@@ -1987,6 +1987,13 @@ void test_ft_betoh32()
 	ASSERT(ft_betoh32(0xFFEEDDCC), ==, 0xCCDDEEFFU);
 }
 
+void test_ft_betoh64()
+{
+	// This test assumes a little-endian host order
+	ASSERT(ft_betoh64(0x0102030405060708), ==, 0x0807060504030201ULL);
+	ASSERT(ft_betoh64(0xFFEEDDCCBBAA0908), ==, 0x0809AABBCCDDEEFFULL);
+}
+
 void test_ft_htobe16()
 {
 	// This test assumes a little-endian host order
@@ -1999,6 +2006,13 @@ void test_ft_htobe32()
 	// This test assumes a little-endian host order
 	ASSERT(ft_htobe32(0x01020304), ==, 0x04030201U);
 	ASSERT(ft_htobe32(0xFFEEDDCC), ==, 0xCCDDEEFFU);
+}
+
+void test_ft_htobe64()
+{
+	// This test assumes a little-endian host order
+	ASSERT(ft_htobe64(0x0102030405060708), ==, 0x0807060504030201U);
+	ASSERT(ft_htobe64(0xFFEEDDCCBBAA0908), ==, 0x0809AABBCCDDEEFFU);
 }
 
 int		main()
@@ -2103,6 +2117,8 @@ int		main()
 
 	RUN_TEST(test_ft_betoh16);
 	RUN_TEST(test_ft_betoh32);
+	RUN_TEST(test_ft_betoh64);
 	RUN_TEST(test_ft_htobe16);
 	RUN_TEST(test_ft_htobe32);
+	RUN_TEST(test_ft_htobe64);
 }
