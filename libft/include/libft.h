@@ -201,7 +201,9 @@ t_bstr			bstr_trim(t_bstr str, char *charset);
 
 uint16_t		ft_betoh16(uint16_t value);
 uint32_t		ft_betoh32(uint32_t value);
+uint64_t		ft_betoh64(uint64_t value);
 uint16_t		ft_htobe16(uint16_t value);
 uint32_t		ft_htobe32(uint32_t value);
+uint64_t		ft_htobe64(uint64_t value);
 
 #endif
