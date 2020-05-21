@@ -190,6 +190,7 @@ char			*ft_trim(char *str, char *charset);
 
 t_bstr			str_to_bstr(char *str);
 int				bstr_cmp(t_bstr s1, t_bstr s2);
+void			bstr_hexdump_fd(int fd, t_bstr str);
 
 t_bstr			bstr_read_until(t_bstr *str, char *charset);
 size_t			bstr_skip_char(t_bstr *str, char c);
