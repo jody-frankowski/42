@@ -13,7 +13,7 @@
 #include "libft.h"
 
 /*
-** bstr_new() - Make a new bstr from a NULL-terminated string.
+** str_to_bstr() - Make a new bstr from a NULL-terminated string.
 ** @str: The pointer to char to use
 **
 ** @str shouldn't be NULL and should point to a NULL-terminated string.
@@ -21,7 +21,7 @@
 ** Return: A bstr that points to @str.
 */
 
-t_bstr	bstr_new(char *str)
+t_bstr	str_to_bstr(char *str)
 {
 	return ((t_bstr){str, ft_strlen(str)});
 }
