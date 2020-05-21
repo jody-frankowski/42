@@ -31,7 +31,8 @@ t_bstr	str_to_bstr(char *str)
 ** @s1: The first bstr to compare
 ** @s2: The second bstr to compare
 **
-** Return:
+** Return: A value less than 0, equal to 0, or more than 0, if respectively, s1
+**         is before s2, equal to s2, or after s2.
 */
 
 int		bstr_cmp(t_bstr s1, t_bstr s2)
