@@ -34,16 +34,16 @@ t_bstr	str_to_bstr(char *str)
 ** Return:
 */
 
-int		bstr_cmp(t_bstr *s1, t_bstr *s2)
+int		bstr_cmp(t_bstr s1, t_bstr s2)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < s1->len && i < s2->len)
+	while (i < s1.len && i < s2.len)
 	{
-		if (s1->str[i] != s2->str[i])
-			return (s1->str[i] - s2->str[i]);
+		if (s1.str[i] != s2.str[i])
+			return (s1.str[i] - s2.str[i]);
 		i++;
 	}
-	return (s1->len - s2->len);
+	return (s1.len - s2.len);
 }
