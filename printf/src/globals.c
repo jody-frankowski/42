@@ -15,6 +15,11 @@
 #include "libft.h"
 #include "libftprintf.h"
 
+char	*g_first_part;
+char	*g_second_part;
+char	*g_output;
+int		(*g_converter['x' + 1])(va_list args, t_conv conv);
+
 /*
 ** allocate_globals() - Allocate the global buffers
 ** @conv: The t_conv to use

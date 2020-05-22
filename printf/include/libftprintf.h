@@ -36,10 +36,10 @@ enum				e_length_modifier
 	HH, H, L, LL, LF
 };
 
-char				*g_first_part;
-char				*g_second_part;
-char				*g_output;
-int					(*g_converter['x' + 1])(va_list args, t_conv conv);
+extern char			*g_first_part;
+extern char			*g_second_part;
+extern char			*g_output;
+extern int			(*g_converter['x' + 1])(va_list args, t_conv conv);
 
 void				append_nchar(char *str, char c, int n);
 void				prepend_nchar(char *str, char c, int n);
