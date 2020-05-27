@@ -1685,6 +1685,11 @@ void test_bstr_ncmp()
 	s2 = str_to_bstr("bce");
 	ASSERT(bstr_ncmp(s1, s2, 2), ==, 0);
 
+	// equal and n longer than the strings
+	s1 = str_to_bstr("bcd");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 5), ==, 0);
+
 	// before on n chars
 	s1 = str_to_bstr("bcd");
 	s2 = str_to_bstr("bde");
