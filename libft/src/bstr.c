@@ -48,3 +48,27 @@ int		bstr_cmp(t_bstr s1, t_bstr s2)
 	}
 	return (s1.len - s2.len);
 }
+
+/*
+** bstr_ncmp() - Compare two bstr with a limit
+** @s1: The first bstr to compare
+** @s2: The second bstr to compare
+** @n:  The maximum number of characters to compare
+**
+** Return: A value less than 0, equal to 0, or more than 0, if respectively, s1
+**         is before s2, equal to s2, or after s2.
+*/
+
+int		bstr_ncmp(t_bstr s1, t_bstr s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < s1.len && i < s2.len && i < n)
+	{
+		if (s1.str[i] != s2.str[i])
+			return (s1.str[i] - s2.str[i]);
+		i++;
+	}
+	return (s1.len - s2.len);
+}

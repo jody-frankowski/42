@@ -1665,6 +1665,77 @@ void test_bstr_cmp()
 	ASSERT(bstr_cmp(s1, s2), >, 0);
 }
 
+void test_bstr_ncmp()
+{
+	t_bstr s1;
+	t_bstr s2;
+
+	// equal
+	s1 = str_to_bstr("bcd");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 3), ==, 0);
+
+	// equal on n chars
+	s1 = str_to_bstr("bcd");
+	s2 = str_to_bstr("bde");
+	ASSERT(bstr_ncmp(s1, s2, 1), ==, 0);
+
+	// equal on n chars
+	s1 = str_to_bstr("bcd");
+	s2 = str_to_bstr("bce");
+	ASSERT(bstr_ncmp(s1, s2, 2), ==, 0);
+
+	// before on n chars
+	s1 = str_to_bstr("bcd");
+	s2 = str_to_bstr("bde");
+	ASSERT(bstr_ncmp(s1, s2, 2), <, 0);
+
+	// after on n chars
+	s1 = str_to_bstr("bde");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 2), >, 0);
+
+	// before because smaller
+	s1 = str_to_bstr("bc");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 3), <, 0);
+
+	// smaller and before
+	s1 = str_to_bstr("bb");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 3), <, 0);
+
+	// smaller and after
+	s1 = str_to_bstr("bd");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 3), >, 0);
+
+	// same length but before
+	s1 = str_to_bstr("bcc");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 3), <, 0);
+
+	// same length but after
+	s1 = str_to_bstr("bce");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 3), >, 0);
+
+	// after because longer
+	s1 = str_to_bstr("bcda");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 4), >, 0);
+
+	// longer and before
+	s1 = str_to_bstr("bcca");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 4), <, 0);
+
+	// longer and after
+	s1 = str_to_bstr("bcea");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 4), >, 0);
+}
+
 void test_bstr_read_until()
 {
 	t_bstr test;
@@ -2106,6 +2177,7 @@ int		main()
 
 	RUN_TEST(test_str_to_bstr);
 	RUN_TEST(test_bstr_cmp);
+	RUN_TEST(test_bstr_ncmp);
 
 	RUN_TEST(test_bstr_read_until);
 	RUN_TEST(test_bstr_skip_char);
