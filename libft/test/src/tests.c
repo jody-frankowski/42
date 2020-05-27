@@ -1690,6 +1690,11 @@ void test_bstr_ncmp()
 	s2 = str_to_bstr("bcd");
 	ASSERT(bstr_ncmp(s1, s2, 5), ==, 0);
 
+	// equal and n smaller than s2
+	s1 = str_to_bstr("b");
+	s2 = str_to_bstr("bcd");
+	ASSERT(bstr_ncmp(s1, s2, 1), ==, 0);
+
 	// before on n chars
 	s1 = str_to_bstr("bcd");
 	s2 = str_to_bstr("bde");

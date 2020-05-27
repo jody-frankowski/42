@@ -70,5 +70,7 @@ int		bstr_ncmp(t_bstr s1, t_bstr s2, size_t n)
 			return (s1.str[i] - s2.str[i]);
 		i++;
 	}
+	if (i == n)
+		return (0);
 	return (s1.len - s2.len);
 }
