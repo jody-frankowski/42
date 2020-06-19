@@ -1,0 +1,5 @@
+*.img
+libbpf/
+vm-files/firewall.o
+vm-files/user.pub
+user-private-key

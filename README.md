@@ -23,3 +23,4 @@ sourced) so far.
 - [Piscine Reloaded](piscine\_reloaded/): A rehash of the functions made during
   the Piscine
 - [printf](printf/): A custom implementation of `printf()`
+- [Roger](roger/): An over-engineered web server in a virtual machine
