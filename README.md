@@ -3,7 +3,7 @@
 This repository contains the school and related projects I have done (or open
 sourced) so far.
 
-- [Alum1](alum1/): An AI That Tries To Win A Nim Game. Done in C in 2 days.
+- [Alum1](alum1/): An AI that tries to win a Nim game. Done in C in 2 days.
 - [BSQ](piscine/bsq/): Find the biggest square possible between obstacles
 - [Cluedo](cluedo/): 3 logical problems solved with
   [Prolog](https://en.wikipedia.org/wiki/Prolog) in 2 days.
