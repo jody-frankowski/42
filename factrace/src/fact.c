@@ -16,6 +16,11 @@
 #include <time.h>
 #include "fact.h"
 
+mpz_t n;
+mpz_t x;
+mpz_t y;
+mpz_t d;
+
 void				initialize_fact(void)
 {
 	mpz_init(n);
