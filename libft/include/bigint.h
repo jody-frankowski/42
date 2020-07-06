@@ -1,14 +1,13 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   bigint.h                                         .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jfrankow <jfrankow@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/12/06 00:43:56 by jfrankow     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/06 00:43:56 by jfrankow    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bigint.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jfrankow <jfrankow@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 1970/01/01 00:00:00 by jfrankow          #+#    #+#             */
+/*   Updated: 1970/01/01 00:00:00 by jfrankow         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BIGINT_H
@@ -22,7 +21,12 @@
 
 # define BIGINT_MAX ULONG_MAX
 # define BIGINT_MIN ULONG_MAX
-# define BIGINT_VAL_NBIT (sizeof(t_bigint_val) * CHAR_BIT)
+
+/*
+** # define BIGINT_VAL_NBIT (sizeof(t_bigint_val) * CHAR_BIT)
+*/
+
+# define BIGINT_VAL_NBIT 64
 
 typedef unsigned long	t_bigint_val;
 
