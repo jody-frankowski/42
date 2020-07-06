@@ -12,7 +12,7 @@
 
 #include <stdarg.h>
 #include <stdint.h>
-#include "libftprintf.h"
+#include "libprintf.h"
 
 /*
 ** ft_signbit_ld() - Get the sign of a long double

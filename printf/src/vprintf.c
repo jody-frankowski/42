@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "libft.h"
-#include "libftprintf.h"
+#include "libprintf.h"
 
 int	ft_vdprintf(int fd, const char *format, va_list args)
 {

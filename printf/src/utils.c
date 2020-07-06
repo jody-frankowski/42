@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "libftprintf.h"
+#include "libprintf.h"
 
 int		biggest(int a, int b, int c)
 {

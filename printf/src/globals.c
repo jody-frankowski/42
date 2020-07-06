@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 #include "libft.h"
-#include "libftprintf.h"
+#include "libprintf.h"
 
 char	*g_first_part;
 char	*g_second_part;

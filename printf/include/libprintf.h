@@ -1,18 +1,17 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   libftprintf.h                                    .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jfrankow <jfrankow@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/12/15 18:48:30 by jfrankow     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/15 18:48:30 by jfrankow    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libprintf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jfrankow <jfrankow@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 1970/01/01 00:00:00 by jfrankow          #+#    #+#             */
+/*   Updated: 1970/01/01 00:00:00 by jfrankow         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#ifndef LIBPRINTF_H
+# define LIBPRINTF_H
 
 # include <stdarg.h>
 

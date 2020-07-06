@@ -13,7 +13,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include "libftprintf.h"
+#include "libprintf.h"
 #include "libft.h"
 
 /*

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#include "libftprintf.h"
+#include "libprintf.h"
 
 /*
 ** get_base() - Get the target base of a conversion based on its specifier

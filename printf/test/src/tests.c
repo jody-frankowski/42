@@ -6,7 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "libft.h"
-#include "libftprintf.h"
+#include "libprintf.h"
 #include "libunit.h"
 
 void test_apppend_nchar()

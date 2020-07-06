@@ -12,7 +12,7 @@
 
 #include <stdarg.h>
 #include <stdlib.h>
-#include "libftprintf.h"
+#include "libprintf.h"
 #include "libft.h"
 
 /*

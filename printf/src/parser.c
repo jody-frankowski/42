@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "libftprintf.h"
+#include "libprintf.h"
 
 void	set_length_modifier(const char **format, t_conv *conv)
 {
