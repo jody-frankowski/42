@@ -7,6 +7,14 @@ sourced) so far.
 - [BSQ](piscine/bsq/): Find the biggest square possible between obstacles
 - [Cluedo](cluedo/): 3 logical problems solved with
   [Prolog](https://en.wikipedia.org/wiki/Prolog) in 2 days.
+- [Corewar](corewar/): A virtual machine where programs can fight. Wrote the
+  assembler that compiled the programs. Designed the project architecture and
+  wrote the core library. Wrote the binary and source file formats
+  specifications with
+  [ABNF](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form). Used
+  my [custom test
+  framework](https://github.com/jody-frankowski/42/tree/master/libunit) for the
+  unit tests.
 - [FactRace](factrace/): A prime factorization race. Got 1st place 🥇!
 - [Fillit](fillit/): Fit geometric shapes in the smallest square possible as
   fast as possible

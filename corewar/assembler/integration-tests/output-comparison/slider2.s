@@ -1,0 +1,1 @@
+../../../resources/champs/slider2.s

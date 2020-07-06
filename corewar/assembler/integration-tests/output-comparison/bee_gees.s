@@ -1,0 +1,1 @@
+../../../resources/champs/examples/bee_gees.s

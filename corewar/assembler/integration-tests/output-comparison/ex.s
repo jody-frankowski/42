@@ -1,0 +1,1 @@
+../../../resources/champs/ex.s

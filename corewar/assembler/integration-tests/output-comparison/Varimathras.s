@@ -1,0 +1,1 @@
+../../../resources/champs/championships/2014/kelickel/Varimathras.s

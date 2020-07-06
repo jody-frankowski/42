@@ -1,0 +1,94 @@
+#!/bin/sh
+
+set -uo pipefail
+
+pushd $(dirname $0) > /dev/null
+
+make -s -C ../
+
+valgrind="valgrind --show-leak-kinds=all --leak-check=full --track-origins=yes"
+
+# Tests that shouldn't return an error
+for test in not-errors/*.s
+do
+	echo "Testing ${test}"
+	if ! ../asm "${test}" >/dev/null 2>&1
+	then
+		echo "ERROR: ../asm didn't return 0"
+		exit 1
+	fi
+	if ! [ -f "${test%.s}.cor" ]
+	then
+		echo "ERROR: ${test%.s}.cor wasn't generated"
+		exit 1
+	else
+		rm "${test%.s}.cor"
+	fi
+	${valgrind} -q --error-exitcode=2 --log-fd=3 ../asm "$test" 2>/dev/null 3>&1
+	if [ $? -eq 2 ]
+	then
+		echo "ERROR: valgrind error"
+		exit 1
+	fi
+	rm "${test%.s}.cor"
+done
+
+# Tests that should return an error
+for test in errors/*.s
+do
+	echo "Testing ${test}"
+	if ../asm "" >/dev/null 2>&1
+	then
+		echo "ERROR: ../asm didn't return 1"
+		exit 1
+	fi
+	if [ -f "${test%.s}.cor" ]
+	then
+		echo "ERROR: ${test%.s}.cor was generated"
+		rm "${test%.s}.cor"
+		exit 1
+	fi
+	${valgrind} -q --error-exitcode=2 --log-fd=3 ../asm "$test" 2>/dev/null 3>&1
+	if [ $? -eq 2 ]
+	then
+		echo "ERROR: valgrind error"
+		exit 1
+	fi
+done
+
+# Compare our implementation output and theirs
+for test in output-comparison/*.s
+do
+	echo "Testing ${test}"
+	if ! ../asm "$test" >/dev/null 2>&1
+	then
+		echo "ERROR: ../asm didn't return 0"
+		exit 1
+	fi
+	mv "${test%.s}.cor" ours.cor
+
+	if [[ "$OSTYPE" == "linux"* ]]
+	then
+		../../resources/asm-linux "$test" >/dev/null 2>&1
+	else
+		../../resources/asm-macos "$test" >/dev/null 2>&1
+	fi
+	mv "${test%.s}.cor" theirs.cor
+
+	if ! diff ours.cor theirs.cor
+	then
+		echo "ERROR: There is a difference between the official output and ours!"
+		exit 1
+	fi
+	rm ours.cor theirs.cor
+
+	${valgrind} -q --error-exitcode=2 --log-fd=3 ../asm "$test" 2>/dev/null 3>&1
+	if [ $? -eq 2 ]
+	then
+		echo "ERROR: valgrind error"
+		exit 1
+	fi
+	rm "${test%.s}.cor"
+done
+
+popd > /dev/null

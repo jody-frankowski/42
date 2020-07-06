@@ -1,0 +1,1 @@
+../../../resources/champs/championships/2018/sboulet/Hidden.s
