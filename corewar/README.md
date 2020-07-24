@@ -8,7 +8,7 @@ assembler that compiles the programs, and some example programs.
 I wrote the assembler, the core library and the binary and source file formats
 specifications with
 [ABNF](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form). I also
-designed large parts of project architecture.
+designed large parts of the project architecture.
 
 We used my [custom test
 framework](https://github.com/jody-frankowski/42/tree/master/libunit) for the
