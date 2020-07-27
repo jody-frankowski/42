@@ -15,15 +15,15 @@
 #define unlikely(x)  __builtin_expect(!!(x), 0)
 
 #ifndef __section
-# define __section(NAME)						\
+# define __section(NAME) \
 	__attribute__((section(NAME), used))
 #endif
 
-#define bpf_printk(fmt, ...)						\
-	({												\
-		char ____fmt[] = fmt;						\
-		bpf_trace_printk(____fmt, sizeof(____fmt),	\
-						 ##__VA_ARGS__);			\
+#define bpf_printk(fmt, ...) \
+	({ \
+		char ____fmt[] = fmt; \
+		bpf_trace_printk(____fmt, sizeof(____fmt), \
+						 ##__VA_ARGS__); \
 	})
 
 // MAX_BW is set deliberately low for the tests
