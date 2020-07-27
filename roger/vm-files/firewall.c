@@ -184,6 +184,7 @@ int xdp_drop(struct xdp_md *ctx)
 		return XDP_ABORTED;
 	}
 
+	/* Skip everything else than ICMP/TCP/UDP */
 	__u8 ip_protocol = iph->protocol;
 	if (unlikely(ip_protocol != IPPROTO_ICMP &&
 				 ip_protocol != IPPROTO_TCP &&
@@ -193,6 +194,7 @@ int xdp_drop(struct xdp_md *ctx)
 		return XDP_ABORTED;
 	}
 
+	/* Check UDP/TCP ports and port scanning */
 	__u32 src_ip = iph->saddr;
 	if (likely(ip_protocol != IPPROTO_ICMP))
 	{
@@ -240,14 +242,11 @@ int xdp_drop(struct xdp_md *ctx)
 		}
 	}
 
+	/* Check bandwidth */
 	if (is_throttled(src_ip))
-	{
 		return XDP_ABORTED;
-	}
 	else
-	{
 		return XDP_PASS;
-	}
 }
 
 char __license[] __section("license") = "GPL";
