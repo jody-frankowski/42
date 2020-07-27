@@ -158,34 +158,34 @@ int xdp_drop(struct xdp_md *ctx)
 		return XDP_ABORTED;
 	}
 
-    /* Skip non 802.3 Ethertypes */
-    if (unlikely(n16toh16(eth->h_proto) < ETH_P_802_3_MIN))
+	/* Skip non 802.3 Ethertypes */
+	if (unlikely(n16toh16(eth->h_proto) < ETH_P_802_3_MIN))
 	{
 		bpf_printk("DROP non 802.3 ethernet frames\n");
 		return XDP_ABORTED;
 	}
-    if (unlikely(n16toh16(eth->h_proto) != ETH_P_IP && n16toh16(eth->h_proto) != ETH_P_ARP))
+	if (unlikely(n16toh16(eth->h_proto) != ETH_P_IP && n16toh16(eth->h_proto) != ETH_P_ARP))
 	{
 		bpf_printk("DROP ethernet protocol: %x\n", n16toh16(eth->h_proto));
 		return XDP_ABORTED;
 	}
 
-    if (unlikely(n16toh16(eth->h_proto) == ETH_P_ARP))
+	if (unlikely(n16toh16(eth->h_proto) == ETH_P_ARP))
 	{
 		bpf_printk("PASS ARP\n");
 		return XDP_PASS;
 	}
 
 	struct iphdr *iph = data + offset;
-    offset += sizeof(struct iphdr);
-    if ((void*)(iph + 1) > data_end)
+	offset += sizeof(struct iphdr);
+	if ((void*)(iph + 1) > data_end)
 	{
 		bpf_printk("iph pointer check abort\n");
 		return XDP_ABORTED;
 	}
 
 	__u8 ip_protocol = iph->protocol;
-    if (unlikely(ip_protocol != IPPROTO_ICMP &&
+	if (unlikely(ip_protocol != IPPROTO_ICMP &&
 				 ip_protocol != IPPROTO_TCP &&
 				 ip_protocol != IPPROTO_UDP))
 	{
@@ -194,7 +194,7 @@ int xdp_drop(struct xdp_md *ctx)
 	}
 
 	__u32 src_ip = iph->saddr;
-    if (likely(ip_protocol != IPPROTO_ICMP))
+	if (likely(ip_protocol != IPPROTO_ICMP))
 	{
 		__u16 src_port;
 		__u16 dst_port;
